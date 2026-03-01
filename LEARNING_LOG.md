@@ -34,9 +34,9 @@
 | ActiveRecord 迁移与DB规范 | ✅ 完成 | ruby/06_migrations_db.md | 2026-03-29 |
 | Ember Service 单例模式 | ✅ 完成 | javascript/02_services.md | 2026-03-29 |
 | QUnit 前端测试 | ✅ 完成 | javascript/05_qunit_testing.md | 2026-03-29 |
+| Guardian 权限系统 | ✅ 完成 | ruby/08_guardian.md | 2026-03-29 |
 | Ember Routes & Controllers | 🔲 待开始 | javascript/03_routes.md | - |
 | Ember Models (Store) | 🔲 待开始 | javascript/04_models.md | - |
-| Guardian 权限系统 | 🔲 待开始 | ruby/08_guardian.md | - |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
 ---
@@ -212,12 +212,32 @@
 
 - **输出文件**：`javascript/05_qunit_testing.md`
 
+### 2026-03-29 — Guardian 权限系统
+
+- **学习内容**：
+  - Guardian 主类 + Mixin 模块结构（每类资源独立 module，include 组合）
+  - AnonymousUser 内部类：所有 `xxx?` 返回安全默认值，权限方法无需判断 nil
+  - 角色判断：`is_admin? / is_staff? / is_moderator? / is_my_own? / is_me?`
+  - 通用分发机制：`can_see?(obj)` → `method_name_for(:see, obj)` → `can_see_topic?`
+  - EnsureMagic：`ensure_can_edit!` 自动对应 `can_edit?`，无权则 raise InvalidAccess
+  - 权限方法编写规范：先 false 守卫 → 高权限短路 → 细化条件
+  - Group 权限模式：`@user.in_any_groups?(SiteSetting.xxx_groups_map)`
+  - Controller 中三种用法：布尔判断 / ensure! / 传 scope 给 Serializer
+
+- **验证来源**：
+  - `lib/guardian.rb`
+  - `lib/guardian/ensure_magic.rb`
+  - `lib/guardian/topic_guardian.rb`
+  - `lib/guardian/user_guardian.rb`
+  - `lib/guardian/post_guardian.rb`
+
+- **输出文件**：`ruby/08_guardian.md`
+
 ---
 
 ## 🔜 下一步建议
 
 优先顺序：
-1. **`ruby/08_guardian.md`** — Guardian 权限系统（can_xxx? 方法、Guardian 基类、自定义权限）
-2. **`javascript/03_routes.md`** — Ember Routes：model hook、beforeModel、actions、link-to
-3. **`javascript/04_models.md`** — Ember Store 模型：createRecord、find、push
-4. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
+1. **`javascript/03_routes.md`** — Ember Routes：model hook、beforeModel、actions
+2. **`javascript/04_models.md`** — Ember Store 模型：createRecord、find、push
+3. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）

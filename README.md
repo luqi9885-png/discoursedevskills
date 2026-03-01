@@ -63,7 +63,7 @@ discoursedevskills/
 │   ├── 05_rspec_testing.md          ✅ fab! + Fabrication
 │   ├── 06_migrations_db.md          ✅ 迁移安全规范 + SafeMigrate
 │   ├── 07_jobs.md                   ✅ Regular / Scheduled Jobs
-│   └── 08_guardian.md               🔲 Guardian 权限系统
+│   └── 08_guardian.md               ✅ Guardian 权限系统
 │
 ├── javascript/                      ← JavaScript / Ember 前端规范
 │   ├── 01_component_gjs.md          ✅ Glimmer Component (.gjs)
@@ -98,12 +98,11 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 1 | `ruby/08_guardian.md` | Guardian 权限系统 | `lib/guardian.rb`, `lib/guardian/` |
-| 2 | `javascript/03_routes.md` | Ember Routes | `frontend/discourse/app/routes/` |
-| 3 | `javascript/04_models.md` | Ember Store 模型 | `frontend/discourse/app/models/` |
-| 4 | `patterns/02_full_plugin_flow.md` | 完整 Plugin 开发流程 | `plugins/` 任意插件 |
-| 5 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
-| 6 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
+| 1 | `javascript/03_routes.md` | Ember Routes | `frontend/discourse/app/routes/` |
+| 2 | `javascript/04_models.md` | Ember Store 模型 | `frontend/discourse/app/models/` |
+| 3 | `patterns/02_full_plugin_flow.md` | 完整 Plugin 开发流程 | `plugins/` 任意插件 |
+| 4 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
+| 5 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
 
 ---
 
