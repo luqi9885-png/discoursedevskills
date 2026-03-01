@@ -69,7 +69,7 @@ discoursedevskills/
 │   ├── 01_component_gjs.md          ✅ Glimmer Component (.gjs)
 │   ├── 02_services.md               ✅ Ember Service 单例模式
 │   ├── 03_routes.md                 ✅ Ember Routes
-│   ├── 04_models.md                 🔲 Ember Store 模型
+│   └── 04_models.md                 ✅ Ember Store 与 Model
 │   └── 05_qunit_testing.md          ✅ Unit + Integration 测试
 │
 ├── system_specs/                    ← 系统测试 / Page Objects
@@ -98,10 +98,9 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 1 | `javascript/04_models.md` | Ember Store 模型 | `frontend/discourse/app/models/` |
-| 2 | `patterns/02_full_plugin_flow.md` | 完整 Plugin 开发流程 | `plugins/` 任意插件 |
-| 3 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
-| 4 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
+| 1 | `patterns/02_full_plugin_flow.md` | 完整 Plugin 开发流程 | `plugins/` 任意插件 |
+| 2 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
+| 3 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
 
 ---
 

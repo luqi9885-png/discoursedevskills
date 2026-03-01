@@ -36,7 +36,7 @@
 | QUnit 前端测试 | ✅ 完成 | javascript/05_qunit_testing.md | 2026-03-29 |
 | Guardian 权限系统 | ✅ 完成 | ruby/08_guardian.md | 2026-03-29 |
 | Ember Routes | ✅ 完成 | javascript/03_routes.md | 2026-03-29 |
-| Ember Models (Store) | 🔲 待开始 | javascript/04_models.md | - |
+| Ember Store 与 Model | ✅ 完成 | javascript/04_models.md | 2026-03-29 |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
 ---
@@ -212,6 +212,33 @@
 
 - **输出文件**：`javascript/05_qunit_testing.md`
 
+### 2026-03-29 — Ember Store 与 Model 规范
+
+- **学习内容**：
+  - Store 是 Service（`@service store`），不是 Ember Data；自定义实现 identity map 单例缓存
+  - `find / findAll / createRecord / update / destroyRecord / appendResults` 核心方法
+  - `createRecord` 有 id → hydrate 进 identity map；无 id → `isNew=true` 的新记录
+  - Identity map：同 type+id 全局只有一个实例，hydrate 时只调 `setProperties` 不 new 新对象
+  - `RestModel` 基类：`isSaving / isNew / isCreated` 状态；`save()` 自动判断新建/更新
+  - `createProperties()` 必须重写；`static munge(json)` 预处理服务端 JSON
+  - `@discourseComputed`：依赖追踪计算属性，比 Ember `@computed` 更简洁
+  - Ember macros：`@alias / @equal / @notEmpty / @or / @and / @fmt`
+  - `@tracked` + `@trackedArray`：Glimmer 响应式属性
+  - `@cached + @dependentKeyCompat`：惰性计算 + 兼容旧依赖系统
+  - 静态方法：批量操作或不需要实例时直接 ajax，不走 store
+  - `@singleton`：`User.current()` 全局唯一实例
+  - `ResultSet`：`findAll` 的返回值，含 `totalRows / loadMoreUrl / canLoadMore`
+
+- **验证来源**：
+  - `services/store.js`（Store 实现）
+  - `models/rest.js`（RestModel 基类）
+  - `models/topic.js`（复杂 model：munge、@discourseComputed、静态方法）
+  - `models/user.js`（@singleton、@userOption、findDetails）
+
+- **输出文件**：`javascript/04_models.md`
+
+---
+
 ### 2026-03-29 — Ember Routes 规范
 
 - **学习内容**：
@@ -267,5 +294,5 @@
 ## 🔜 下一步建议
 
 优先顺序：
-1. **`javascript/04_models.md`** — Ember Store 模型：createRecord、find、push
-2. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
+1. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
+2. **`system_specs/02_system_spec_patterns.md`** — 系统测试通用模式
