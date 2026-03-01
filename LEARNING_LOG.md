@@ -35,7 +35,7 @@
 | Ember Service 单例模式 | ✅ 完成 | javascript/02_services.md | 2026-03-29 |
 | QUnit 前端测试 | ✅ 完成 | javascript/05_qunit_testing.md | 2026-03-29 |
 | Guardian 权限系统 | ✅ 完成 | ruby/08_guardian.md | 2026-03-29 |
-| Ember Routes & Controllers | 🔲 待开始 | javascript/03_routes.md | - |
+| Ember Routes | ✅ 完成 | javascript/03_routes.md | 2026-03-29 |
 | Ember Models (Store) | 🔲 待开始 | javascript/04_models.md | - |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
@@ -212,6 +212,35 @@
 
 - **输出文件**：`javascript/05_qunit_testing.md`
 
+### 2026-03-29 — Ember Routes 规范
+
+- **学习内容**：
+  - 所有 Route 继承 `DiscourseRoute`（不直接用 Ember 的 Route）
+  - 路由在 `app-route-map.js` 集中声明；`resetNamespace: true` 去掉父路由名称前缀
+  - 生命周期顺序：`beforeModel → model → afterModel → setupController → activate → deactivate`
+  - `beforeModel`：权限守卫，throw RouteException 或 replaceWith 阻断
+  - `model(params, transition)`：返回值成为 controller.model；子路由用 `this.modelFor()` 复用
+  - `afterModel`：model 加载后的异步操作（加载详情、重定向 404）
+  - `setupController`：向 controller 写入 model 和初始状态，设置全局 Service 状态
+  - `activate/deactivate`：订阅/取消订阅 MessageBus，deactivate 必须清理防内存泄漏
+  - `queryParams = { key: { replace: true } }`：不产生浏览器历史记录
+  - `@action` 方法可被子路由和 Controller `send()` 冒泡调用
+  - `titleToken()` 返回字符串或数组控制页面标题
+  - 专用基类模式：`RestrictedUserRoute`、工厂函数 `build-topic-route.js` 等
+
+- **验证来源**：
+  - `routes/discourse.js`（基类）
+  - `routes/about.js`（简单 model hook）
+  - `routes/topic.js`（复杂 model、setupController、@action）
+  - `routes/user.js`（beforeModel 守卫、afterModel、activate/deactivate）
+  - `routes/preferences.js`（复用父 model）
+  - `routes/restricted-user.js`（专用基类）
+  - `routes/app-route-map.js`（路由定义）
+
+- **输出文件**：`javascript/03_routes.md`
+
+---
+
 ### 2026-03-29 — Guardian 权限系统
 
 - **学习内容**：
@@ -238,6 +267,5 @@
 ## 🔜 下一步建议
 
 优先顺序：
-1. **`javascript/03_routes.md`** — Ember Routes：model hook、beforeModel、actions
-2. **`javascript/04_models.md`** — Ember Store 模型：createRecord、find、push
-3. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
+1. **`javascript/04_models.md`** — Ember Store 模型：createRecord、find、push
+2. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
