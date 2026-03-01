@@ -30,10 +30,14 @@
 | Controllers 规范 | ✅ 完成 | ruby/03_controllers.md | 2026-03-01 |
 | Serializers 规范 | ✅ 完成 | ruby/04_serializers.md | 2026-03-01 |
 | RSpec + fab! 规范 | ✅ 完成 | ruby/05_rspec_testing.md | 2026-03-01 |
-| ActiveRecord 性能 | 🔲 待开始 | ruby/06_migrations_db.md | - |
-| Ember Services (.js) | 🔲 待开始 | javascript/02_services.md | - |
-| QUnit 测试 | 🔲 待开始 | javascript/05_qunit_testing.md | - |
 | Background Jobs | ✅ 完成 | ruby/07_jobs.md | 2026-03-01 |
+| ActiveRecord 迁移与DB规范 | ✅ 完成 | ruby/06_migrations_db.md | 2026-03-29 |
+| Ember Service 单例模式 | ✅ 完成 | javascript/02_services.md | 2026-03-29 |
+| QUnit 前端测试 | ✅ 完成 | javascript/05_qunit_testing.md | 2026-03-29 |
+| Ember Routes & Controllers | 🔲 待开始 | javascript/03_routes.md | - |
+| Ember Models (Store) | 🔲 待开始 | javascript/04_models.md | - |
+| Guardian 权限系统 | 🔲 待开始 | ruby/08_guardian.md | - |
+| Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
 ---
 
@@ -121,90 +125,99 @@
   - scope = guardian，用于权限判断
   - cache_fragment / cache_anon_fragment 缓存机制
 
-- **验证来源**：
-  - `app/serializers/application_serializer.rb`
-  - `app/serializers/basic_user_serializer.rb`
-  - `app/serializers/user_serializer.rb`
-  - `app/serializers/basic_category_serializer.rb`
-  - `app/serializers/basic_topic_serializer.rb`
-  - `app/serializers/listable_topic_serializer.rb`
-  - `app/serializers/flag_serializer.rb`
-  - `app/serializers/concerns/user_status_mixin.rb`
-
 - **输出文件**：`ruby/04_serializers.md`
-
-- **下次继续**：`ruby/06_migrations_db.md`（ActiveRecord 迁移与性能）或 `ruby/07_jobs.md`（Background Jobs）
 
 ---
 
 ### 2026-03-01 — RSpec + fab! 规范
 
-- **学习内容**：
-  - `fab!` 宏：before(:context) 级别创建，比 let 快
-  - Fabrication gem 使用模式
-  - Service 测试的结果检查方式
-
-- **验证来源**：`spec/` 目录各测试文件
-
 - **输出文件**：`ruby/05_rspec_testing.md`
-
----
-
-## 🔜 下一步建议
-
-优先顺序：
-1. **`ruby/06_migrations_db.md`** — ActiveRecord 迁移规范（add_column 安全写法、索引规范）
-2. **`javascript/02_services.md`** — Ember Service 单例模式
-3. **`patterns/01_service_base_pattern.md`** — 深度分析 Service::Base 源码
-4. **`javascript/05_qunit_testing.md`** — QUnit 前端测试规范
-
----
-
-### 2026-03-01 — Serializers 规范
-
-- **学习内容**：
-  - 三层继承层级（Basic → 标准 → Detailed）
-  - 条件属性 `include_xxx?` 方法
-  - `has_one / has_many` 的 `embed: :object` vs `embed: :ids`
-  - Serializer Mixin（`concerns/` 目录，命名用 `Mixin` 后缀）
-  - `staff_attributes / private_attributes / untrusted_attributes` Discourse 扩展 DSL
-  - `scope` = guardian，用于权限判断
-  - `cache_fragment / cache_anon_fragment` 缓存机制
-
-- **验证来源**：
-  - `app/serializers/application_serializer.rb`
-  - `app/serializers/basic_user_serializer.rb`
-  - `app/serializers/user_serializer.rb`
-  - `app/serializers/basic_category_serializer.rb`
-  - `app/serializers/basic_topic_serializer.rb`
-  - `app/serializers/listable_topic_serializer.rb`
-  - `app/serializers/flag_serializer.rb`
-  - `app/serializers/concerns/user_status_mixin.rb`
-
-- **输出文件**：`ruby/04_serializers.md`
 
 ---
 
 ### 2026-03-01 — Background Jobs 规范
 
 - **学习内容**：
-  - 三类 Job：Regular（手动触发）/ Scheduled（定时）/ Onceoff（单次）
-  - 标准骨架：`module Jobs; class Xxx < ::Jobs::Base; def execute(args)`
+  - 三类 Job：Regular / Scheduled / Onceoff
   - `Jobs.enqueue / enqueue_in / enqueue_at` API
-  - Scheduled Job 的 `every N.unit` 频率声明
-  - 扇出模式：Scheduled 只分发，Regular 处理单条
-  - 幂等性设计（`find_by` + `return` 守卫）
-  - 参数只传 JSON 可序列化类型（id 而非对象）
-
-- **验证来源**：
-  - `app/jobs/base.rb`
-  - `app/jobs/regular/post_alert.rb`
-  - `app/jobs/regular/close_topic.rb`
-  - `app/jobs/regular/push_notification.rb`
-  - `app/jobs/scheduled/heartbeat.rb`
-  - `app/jobs/scheduled/badge_grant.rb`
-  - `app/jobs/scheduled/enqueue_digest_emails.rb`
+  - 幂等性设计（find_by + return 守卫）
 
 - **输出文件**：`ruby/07_jobs.md`
 
-- **下次继续**：`ruby/06_migrations_db.md` — ActiveRecord 迁移与数据库性能规范
+---
+
+### 2026-03-29 — ActiveRecord 迁移与数据库规范
+
+- **学习内容**：
+  - 两类迁移目录：`db/migrate/`（部署前）vs `db/post_migrate/`（部署后）
+  - SafeMigrate 保护机制：拦截 DROP TABLE / DROP COLUMN / RENAME（必须用 post_migrate）
+  - 大表加索引必须用 `algorithm: :concurrently` + `disable_ddl_transaction!`
+  - 先 `remove_index if_exists: true` 再 `add_index concurrently`（SafeMigrate 强制要求）
+  - 删列两步流程：① Model 中 `ignored_columns`，② post_migrate 中 `ColumnDropper.execute_drop`
+  - 函数索引、部分索引用原生 SQL（AR DSL 不支持）
+  - 数据迁移用 SQL，不用 AR 模型，配合 `ON CONFLICT` 实现幂等
+
+- **验证来源**：
+  - `db/migrate/20251023042602_add_extra_index_topic_tags.rb`
+  - `db/migrate/20260109041508_add_index_category_on_topics.rb`
+  - `db/migrate/20251107123438_add_index_to_tag_groups.rb`
+  - `db/migrate/20251024015907_populate_image_quality_setting.rb`
+  - `db/migrate/20251111073356_create_tag_localizations.rb`
+  - `db/post_migrate/20250821155127_drop_dark_hex_from_color_scheme_color.rb`
+  - `lib/migration/safe_migrate.rb`
+  - `lib/migration/column_dropper.rb`
+
+- **输出文件**：`ruby/06_migrations_db.md`
+
+---
+
+### 2026-03-29 — Ember Service 单例模式
+
+- **学习内容**：
+  - `@disableImplicitInjections` 装饰器：Discourse 规范，必须显式声明依赖
+  - `@service xxx;` 注入其他 Service
+  - `@tracked` 响应式状态，`TrackedMap / TrackedArray / TrackedObject` 响应式集合
+  - ES # 私有字段（`#title`），内部方法 `_method()` 约定
+  - Evented mixin 模式（app-events 事件总线）
+  - 自定义工厂模式：`static isServiceFactory = true; static create() { return instance; }`
+  - `deprecated()` 包装废弃 API（指定 since / dropFrom）
+  - `KeyValueStore` 持久化到 localStorage，带命名空间
+
+- **验证来源**：
+  - `frontend/discourse/app/services/app-events.js`
+  - `frontend/discourse/app/services/document-title.js`
+  - `frontend/discourse/app/services/header.js`
+  - `frontend/discourse/app/services/emoji-store.js`
+  - `frontend/discourse/app/services/capabilities.js`
+
+- **输出文件**：`javascript/02_services.md`
+
+---
+
+### 2026-03-29 — QUnit 前端测试规范
+
+- **学习内容**：
+  - 三类测试：Unit（`setupTest`）/ Integration（`setupRenderingTest`）/ Acceptance
+  - Unit 用 `.js`，Integration 用 `.gjs`（需要 JSX 模板语法）
+  - `getOwner(this).lookup("service:name")` 获取 Service 实例
+  - `this.set("key", value)` 传数据到模板
+  - `assert.dom()` DOM 断言：`.exists()` / `.hasText()` / `.hasAttribute()`
+  - `assert.step()` + `assert.verifySteps()` 验证回调调用顺序
+  - `hooks.beforeEach` 初始化，`hooks.afterEach` 清理
+  - 所有 DOM helper（`click / fillIn / select`）必须 `await`
+
+- **验证来源**：
+  - `frontend/discourse/tests/unit/services/emoji-store-test.js`
+  - `frontend/discourse/tests/integration/components/admin-filter-controls-test.gjs`
+
+- **输出文件**：`javascript/05_qunit_testing.md`
+
+---
+
+## 🔜 下一步建议
+
+优先顺序：
+1. **`ruby/08_guardian.md`** — Guardian 权限系统（can_xxx? 方法、Guardian 基类、自定义权限）
+2. **`javascript/03_routes.md`** — Ember Routes：model hook、beforeModel、actions、link-to
+3. **`javascript/04_models.md`** — Ember Store 模型：createRecord、find、push
+4. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
