@@ -502,3 +502,38 @@
 2. **TopicQuery**：`lib/topic_query.rb`，话题列表构建、filter 机制
 3. **DiscourseConnect / SSO**：`lib/discourse_connect_base.rb`
 4. **Wizard 系统**：`lib/wizard/`，安装向导框架
+
+---
+
+### 2026-03-03 — registerValueTransformer+DAG 与 modifyClass 规范
+
+- **方向纠正**：上一批（PostCreator/Reviewable/Search）是站点机制知识，非插件开发技术。本批聚焦插件开发实际所需的前端扩展技术。
+
+- **registerValueTransformer + DAG**：
+  - DAG 是有向无环图，基于 `dag-map` 库，用 `before`/`after` 声明排序约束
+  - `post-menu-buttons` 是最常用的 transformer：插件通过 `dag.add/replace/delete/reposition` 操作按钮列表
+  - context 提供 `buttonKeys`（核心按钮常量）、`firstButtonKey`、`lastHiddenButtonKey` 等定位锚点
+  - `add` 时 before/after 可传数组作为优先级回退（引用不存在的 key 不报错）
+  - `replace` 替换已有按钮（位置不变）；`delete` 移除；`reposition` 改位置不改 value
+  - mutable transformer（post-menu-buttons）直接改 dag 不需要 return；immutable transformer（topic-list-item-class）需要 return 新值
+  - 被注入组件通过 `static shouldRender(args)` 控制是否渲染
+
+- **modifyClass**：
+  - 工厂函数语法 `(Superclass) => class extends Superclass { ... }` 是必须的
+  - 覆盖 `@tracked` getter 时必须同时覆盖 setter，否则运行时报错
+  - 扩展 subscribe/unsubscribe 必须调用 `super.subscribe/unsubscribe(...arguments)`
+  - 第三个参数 `{ ignoreMissing: true }` 用于可选组件（admin 专属组件等）
+  - 类型名约定：`type:kebab-case`，路径中 `/` 改 `.`，去后缀
+  - 验证了 5 种类型：model/controller/component/route/service
+
+- **验证来源**（≥2 处每条规范）：
+  - `plugins/discourse-assign/assets/javascripts/discourse/initializers/extend-for-assigns.js`（725 行，modifyClass 5 处 + registerValueTransformer）
+  - `plugins/discourse-solved/assets/javascripts/discourse/initializers/extend-for-solved-button.gjs`（modifyClass + registerValueTransformer）
+  - `plugins/discourse-reactions/assets/javascripts/discourse/initializers/discourse-reactions.gjs`（dag.replace + ignoreMissing）
+  - `frontend/discourse/app/lib/dag.js`（DAG 类全部方法）
+  - `frontend/discourse/app/components/post/menu.gjs`（buttonKeys 定义 + context 字段）
+
+- **输出文件**：
+  - `plugins/04_value_transformer_dag.md`（新建）
+  - `plugins/05_modify_class.md`（新建）
+

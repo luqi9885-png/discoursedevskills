@@ -81,7 +81,9 @@ discoursedevskills/
 │   ├── 01_plugin_rb_and_backend.md  ✅ plugin.rb + 后端扩展
 │   ├── 02_plugin_frontend.md        ✅ 前端扩展
 │   ├── 02_plugin_api_frontend.md    ✅ Plugin API
-│   └── 03_plugin_settings.md        ✅ Plugin 设置
+│   ├── 03_plugin_settings.md        ✅ Plugin 设置
+│   ├── 04_value_transformer_dag.md  ✅ registerValueTransformer + DAG
+│   └── 05_modify_class.md           ✅ modifyClass 规范
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
@@ -98,7 +100,9 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-（已完成全部规划目标，待制定下一批）
+| 高 | plugins/06_tracked_post_properties.md | addTrackedPostProperties + renderAfterWrapperOutlet | plugins/discourse-assign/ |
+| 高 | plugins/07_register_modifier_backend.md | register_modifier 后端改 query | lib/discourse_reactions/ |
+| 中 | plugins/08_notification_consolidation.md | register_notification_consolidation_plan | plugins/discourse-reactions/plugin.rb |
 
 ---
 
