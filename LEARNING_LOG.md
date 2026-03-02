@@ -38,6 +38,7 @@
 | Ember Routes | ✅ 完成 | javascript/03_routes.md | 2026-03-29 |
 | Ember Store 与 Model | ✅ 完成 | javascript/04_models.md | 2026-03-29 |
 | 完整 Plugin 开发流程 | ✅ 完成 | patterns/02_full_plugin_flow.md | 2026-03-02 |
+| 系统测试通用模式 | ✅ 完成 | system_specs/02_system_spec_patterns.md | 2026-03-02 |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
 ---
@@ -213,6 +214,36 @@
 
 - **输出文件**：`javascript/05_qunit_testing.md`
 
+### 2026-03-02 — 系统测试通用模式
+
+- **学习内容**：
+  - System Spec vs Request Spec：端到端 vs HTTP 层；浏览器交互 vs JSON 验证
+  - `fab!` 在 describe 开始前创建（共享），`Fabricate` 在 before/it 内按需创建（隔离）
+  - `sign_in(user)` 通过 `/session/xxx/become.json` 路由登录；不调用即匿名
+  - `SiteSetting.xxx = value` 在测试内赋值，结束后自动还原；Mocha stubs 同理
+  - 直接 Capybara DSL：`visit`、`find`、`expect(page).to have_css`、`send_keys`
+  - Page Object 模式：继承 `Base`（含 `Capybara::DSL`）；`has_xxx?`/`has_no_xxx?`；操作方法返回 self
+  - `within(selector)` 缩小查找范围，避免 CSS 冲突
+  - 私有辅助方法：`it` 读起来像用户故事，步骤细节下沉到 private
+  - 常量集中定义选择器（`ACCEPTED_BUTTON_SELECTOR = "..."`），修改只改一处
+  - `SystemHelpers`：`try_until_success`、`wait_for_animation`、`wait_for_attribute`、`resize_window`、`using_browser_timezone`、`fake_scroll_down_long`、`pause_test`
+  - Playwright 直接操作：`page.driver.with_playwright_page { |pw| pw.mouse.click(x, y, clickCount: 3) }`
+  - Plugin system spec：放 `plugins/xxx/spec/system/`，直接复用核心 Page Object
+
+- **验证来源**：
+  - `spec/system/about_page_spec.rb`（fab!、SiteSetting、Page Object 完整用法）
+  - `spec/system/flagging_post_spec.rb`（sign_in、多角色、Modal）
+  - `spec/system/topic_page_spec.rb`（send_keys、Playwright、with_playwright_page）
+  - `spec/system/admin_filter_controls_spec.rb`（Component Page Object）
+  - `spec/support/system_helpers.rb`（sign_in 实现、所有 helper 方法）
+  - `spec/system/page_objects/pages/topic.rb`（Page Object 实现规范）
+  - `spec/system/page_objects/pages/base.rb`（Base 类）
+  - `plugins/discourse-solved/spec/system/solved_spec.rb`（Plugin spec 模式、私有方法）
+
+- **输出文件**：`system_specs/02_system_spec_patterns.md`
+
+---
+
 ### 2026-03-02 — 完整 Plugin 开发流程
 
 - **学习内容**：
@@ -336,5 +367,4 @@
 ## 🔜 下一步建议
 
 优先顺序：
-1. **`system_specs/02_system_spec_patterns.md`** — 系统测试通用模式（`spec/system/`）
-2. **`tooling/02_linting_formatting.md`** — Lint + 格式化规范（`.rubocop.yml`、`eslint.config.mjs`）
+1. **`tooling/02_linting_formatting.md`** — Lint + 格式化规范（`.rubocop.yml`、`eslint.config.mjs`）

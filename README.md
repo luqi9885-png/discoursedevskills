@@ -74,7 +74,7 @@ discoursedevskills/
 │
 ├── system_specs/                    ← 系统测试 / Page Objects
 │   ├── 01_page_objects.md           ✅ Page Objects 系统测试
-│   └── 02_system_spec_patterns.md   🔲 系统测试通用模式
+│   └── 02_system_spec_patterns.md   ✅ 系统测试通用模式
 │
 ├── plugins/                         ← Plugin 开发规范
 │   ├── 01_plugin_structure.md       ✅ Plugin 目录结构
@@ -98,8 +98,7 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 1 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
-| 2 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
+| 1 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
 
 ---
 
