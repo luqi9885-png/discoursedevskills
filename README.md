@@ -89,7 +89,7 @@ discoursedevskills/
 │
 └── tooling/                         ← 工具链规范
     ├── 01_commands.md               ✅ 常用开发命令
-    └── 02_linting_formatting.md     🔲 Lint + 格式化规范
+    └── 02_linting_formatting.md     ✅ Lint + 格式化规范
 ```
 
 ---
@@ -98,7 +98,7 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 1 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
+（已完成全部规划目标，待制定下一批）
 
 ---
 

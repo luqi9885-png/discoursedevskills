@@ -39,6 +39,7 @@
 | Ember Store 与 Model | ✅ 完成 | javascript/04_models.md | 2026-03-29 |
 | 完整 Plugin 开发流程 | ✅ 完成 | patterns/02_full_plugin_flow.md | 2026-03-02 |
 | 系统测试通用模式 | ✅ 完成 | system_specs/02_system_spec_patterns.md | 2026-03-02 |
+| Lint + 格式化规范 | ✅ 完成 | tooling/02_linting_formatting.md | 2026-03-02 |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
 ---
@@ -214,6 +215,36 @@
 
 - **输出文件**：`javascript/05_qunit_testing.md`
 
+### 2026-03-02 — Lint + 格式化规范
+
+- **学习内容**：
+  - 工具全景：RuboCop + stree（Ruby）、ESLint + Prettier（JS）、ember-template-lint（GJS）、Stylelint（SCSS）、yaml-lint、i18n-lint
+  - `.rubocop.yml` 继承 `rubocop-discourse: stree-compat.yml`，项目文件只做覆盖
+  - 6 条 Plugin 专用 Cops：CallRequiresPlugin / UsePluginInstanceOn / NamespaceMethods / NamespaceConstants / UseRequireRelative / NoMonkeyPatching
+  - `Discourse/NoResetColumnInformationInMigrations`：迁移中禁止调用 reset_column_information
+  - `RSpec/InstanceVariable`：models spec 中禁用实例变量，用 let
+  - rubocop:disable 注释用法，区块 vs 单行
+  - RuboCop（质量）与 Syntax Tree（格式）分工：两者分别运行
+  - `eslint.config.mjs` Flat Config：继承 @discourse/lint-configs/eslint + 项目额外规则
+  - 关键 ESLint 规则：qunit/no-assert-equal、ember/no-classic-components、discourse/moved-packages-import-paths
+  - `.prettierrc.cjs`：完全继承官方配置，ESLint 与 Prettier 通过 eslint-config-prettier 分工不冲突
+  - Lefthook：pre-commit（只扫 staged_files，并行快）/ fix-staged / fix-all 三个 hook 组
+  - `package.json` scripts：pnpm lint:js / lint:css / lint:hbs / lint:prettier / lint:types
+  - i18n_lint：禁 HTML 实体，插值用 %{var} 非 {{var}}
+  - 日常流程：`bin/lint --fix --recent` → staged files 全量修复
+
+- **验证来源**：
+  - `.rubocop.yml`（完整配置）
+  - `eslint.config.mjs`（完整配置）
+  - `.prettierrc.cjs`
+  - `lefthook.yml`（完整配置）
+  - `package.json` lint scripts
+  - `plugins/` 中实际 rubocop:disable 使用示例
+
+- **输出文件**：`tooling/02_linting_formatting.md`
+
+---
+
 ### 2026-03-02 — 系统测试通用模式
 
 - **学习内容**：
@@ -367,4 +398,4 @@
 ## 🔜 下一步建议
 
 优先顺序：
-1. **`tooling/02_linting_formatting.md`** — Lint + 格式化规范（`.rubocop.yml`、`eslint.config.mjs`）
+1. **规划下一批**：当前 roadmap 已完成，需要制定新的学习目标
