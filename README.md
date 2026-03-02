@@ -85,7 +85,7 @@ discoursedevskills/
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
-│   └── 02_full_plugin_flow.md       🔲 完整 Plugin 开发流程
+│   └── 02_full_plugin_flow.md       ✅ 完整 Plugin 开发流程
 │
 └── tooling/                         ← 工具链规范
     ├── 01_commands.md               ✅ 常用开发命令
@@ -98,9 +98,8 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 1 | `patterns/02_full_plugin_flow.md` | 完整 Plugin 开发流程 | `plugins/` 任意插件 |
-| 2 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
-| 3 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
+| 1 | `system_specs/02_system_spec_patterns.md` | 系统测试通用模式 | `spec/system/` |
+| 2 | `tooling/02_linting_formatting.md` | Lint + 格式化规范 | `.rubocop.yml`, `eslint.config.mjs` |
 
 ---
 

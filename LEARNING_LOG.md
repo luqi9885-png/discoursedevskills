@@ -37,6 +37,7 @@
 | Guardian 权限系统 | ✅ 完成 | ruby/08_guardian.md | 2026-03-29 |
 | Ember Routes | ✅ 完成 | javascript/03_routes.md | 2026-03-29 |
 | Ember Store 与 Model | ✅ 完成 | javascript/04_models.md | 2026-03-29 |
+| 完整 Plugin 开发流程 | ✅ 完成 | patterns/02_full_plugin_flow.md | 2026-03-02 |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
 
 ---
@@ -212,6 +213,47 @@
 
 - **输出文件**：`javascript/05_qunit_testing.md`
 
+### 2026-03-02 — 完整 Plugin 开发流程
+
+- **学习内容**：
+  - 完整 Plugin 目录结构及各层职责
+  - `plugin.rb`：头声明、`enabled_site_setting`、`register_asset/svg_icon`、`after_initialize` 块
+  - `after_initialize` 内的 DSL：`reloadable_patch`、`add_to_serializer`、`on(:event)`、`register_modifier`
+  - Rails Engine：`isolate_namespace` 隔离命名空间，表名加前缀防冲突
+  - `config/routes.rb`：Engine 内路由 + `mount Engine, at: "prefix"` 挂载到主 App
+  - `config/settings.yml`：`client: true/false`、`type: group_list/enum`、`mandatory_values`
+  - Controller：`requires_plugin`、`RateLimiter` 限流、`guardian.ensure_can_xxx!`
+  - Guardian 扩展：`module GuardianExtensions` → `prepend` 进 `::Guardian`
+  - Serializer 扩展：`prepended { attributes :field }` + `include_xxx?` 条件
+  - Plugin Model：`self.table_name` 明确指定带前缀的表名
+  - 前端 initializer：`withPluginApi`、`api.modifyClass`、`api.registerValueTransformer`
+  - pre-initializer：`before: "inject-discourse-objects"` 在 Ember 注入前运行
+  - connector：路径名即 outlet 名，`@outletArgs` 接收上下文
+  - `solved-route-map.js`：`resource` 指定挂载点，`this.route()` 新增路由
+  - Component 调用后端：`ajax` → `topic.setAcceptedSolution()` 更新前端状态
+  - MessageBus 实时同步：后端 `publish`，前端 `registerCustomPostMessageCallback`
+  - 完整请求链路：按钮点击 → ajax → Controller → 业务逻辑 → MessageBus → 全端同步
+
+- **验证来源**：
+  - `plugins/discourse-solved/plugin.rb`（完整）
+  - `plugins/discourse-solved/lib/discourse_solved/engine.rb`
+  - `plugins/discourse-solved/lib/discourse_solved/guardian_extensions.rb`
+  - `plugins/discourse-solved/lib/discourse_solved/topic_view_serializer_extension.rb`
+  - `plugins/discourse-solved/app/controllers/discourse_solved/answer_controller.rb`
+  - `plugins/discourse-solved/app/models/discourse_solved/solved_topic.rb`
+  - `plugins/discourse-solved/db/migrate/20250318024824_create_discourse_solved_solved_topics.rb`
+  - `plugins/discourse-solved/assets/javascripts/discourse/initializers/extend-for-solved-button.gjs`
+  - `plugins/discourse-solved/assets/javascripts/discourse/pre-initializers/extend-category-for-solved.js`
+  - `plugins/discourse-solved/assets/javascripts/discourse/connectors/after-topic-status/solved-status.gjs`
+  - `plugins/discourse-solved/assets/javascripts/discourse/components/solved-accept-answer-button.gjs`
+  - `plugins/discourse-solved/assets/javascripts/discourse/solved-route-map.js`
+  - `plugins/discourse-solved/config/settings.yml`
+  - `plugins/discourse-solved/config/routes.rb`
+
+- **输出文件**：`patterns/02_full_plugin_flow.md`
+
+---
+
 ### 2026-03-29 — Ember Store 与 Model 规范
 
 - **学习内容**：
@@ -294,5 +336,5 @@
 ## 🔜 下一步建议
 
 优先顺序：
-1. **`patterns/02_full_plugin_flow.md`** — 完整 Plugin 开发流程（前后端联调）
-2. **`system_specs/02_system_spec_patterns.md`** — 系统测试通用模式
+1. **`system_specs/02_system_spec_patterns.md`** — 系统测试通用模式（`spec/system/`）
+2. **`tooling/02_linting_formatting.md`** — Lint + 格式化规范（`.rubocop.yml`、`eslint.config.mjs`）
