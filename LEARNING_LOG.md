@@ -41,6 +41,9 @@
 | 系统测试通用模式 | ✅ 完成 | system_specs/02_system_spec_patterns.md | 2026-03-02 |
 | Lint + 格式化规范 | ✅ 完成 | tooling/02_linting_formatting.md | 2026-03-02 |
 | Plugin 完整流程 | 🔲 待开始 | patterns/02_full_plugin_flow.md | - |
+| Guardian 权限系统（重建） | ✅ 完成 | ruby/08_guardian.md | 2026-03-02 |
+| MessageBus 实时通信 | ✅ 完成 | javascript/06_message_bus.md | 2026-03-02 |
+| RateLimiter 限流模式 | ✅ 完成 | ruby/10_rate_limiter.md | 2026-03-02 |
 
 ---
 
@@ -214,6 +217,57 @@
   - `frontend/discourse/tests/integration/components/admin-filter-controls-test.gjs`
 
 - **输出文件**：`javascript/05_qunit_testing.md`
+
+### 2026-03-02 — Guardian 权限系统（重建）+ MessageBus + RateLimiter
+
+- **Guardian（重建）**：
+  - 主类 + Mixin 组合（TopicGuardian / PostGuardian 等独立 include）
+  - AnonymousUser 内部类：所有方法返回安全默认值，避免 nil check
+  - 角色判断：is_admin? / is_staff? / is_moderator? / is_my_own? / is_me?
+  - 分发机制：can_see?(obj) → method_name_for(:see, obj) → can_see_topic?
+  - EnsureMagic：method_missing 实现，ensure_can_edit! 对应 can_edit?，无权 raise Discourse::InvalidAccess
+  - 权限方法模式：false 守卫 → true 短路（高权限） → 细化条件
+  - Group 权限：@user.in_any_groups?(SiteSetting.xxx_groups_map)
+  - alias 复用：can_archive_topic? 等 5 个方法 alias 同一实现
+  - Controller 三种用法：布尔判断 / ensure! / 传 scope 给 Serializer
+  - Plugin 扩展：module GuardianExtensions + prepend + reloadable_patch
+
+- **MessageBus**：
+  - Service 层：直接 return message-bus-client 库实例
+  - subscribe(channel, callback, lastId?) / unsubscribe(同一函数引用)
+  - Instance-initializer 模式：constructor 订阅 + teardown 取消 + @bind 固定 this
+  - 常见频道：/notification/{id} / /topic/{id} / /categories / /client_settings
+  - Plugin：registerCustomPostMessageCallback(type, (controller, message) => {})
+  - 后端：MessageBus.publish(channel, data, user_ids:, group_ids:)
+  - 安全受众：secure_audience_publish_messages 限制私信/受限分类的推送范围
+  - 测试环境 isTesting() 时不启动
+
+- **RateLimiter**：
+  - Redis List + Lua 脚本实现滑动窗口（原子操作，线程安全）
+  - RateLimiter.new(user, type, max, secs, global:, aggressive:, apply_limit_to_staff:)
+  - performed! / can_perform? / remaining / seconds_to_wait / rollback! / clear!
+  - Staff 默认豁免（apply_limit_to_staff: false），测试/profile 模式自动禁用
+  - Controller 模式：return if staff? + 双窗口（分钟+小时）+ rescue LimitExceeded
+  - IP 限流：key 包含 request.remote_ip（覆盖匿名用户）
+  - Model 层：include OnCreateRecord + rate_limit DSL + default_rate_limiter 读 SiteSetting
+  - Key 规范：{操作}-{时间粒度}-{user_id 或 ip}
+
+- **验证来源**：
+  - `lib/guardian.rb`（完整主类）
+  - `lib/guardian/ensure_magic.rb`、`topic_guardian.rb`
+  - `lib/rate_limiter.rb`、`lib/rate_limiter/on_create_record.rb`
+  - `app/controllers/session_controller.rb`（IP 限流 + rescue 模式）
+  - `plugins/discourse-solved/app/controllers/.../answer_controller.rb`
+  - `frontend/.../instance-initializers/message-bus.js`
+  - `frontend/.../instance-initializers/subscribe-user-notifications.js`
+  - `plugins/discourse-solved/.../extend-for-solved-button.gjs`（registerCustomPostMessageCallback）
+
+- **输出文件**：
+  - `ruby/08_guardian.md`（重建）
+  - `javascript/06_message_bus.md`（新建）
+  - `ruby/10_rate_limiter.md`（新建）
+
+---
 
 ### 2026-03-02 — Lint + 格式化规范
 
