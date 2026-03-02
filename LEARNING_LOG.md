@@ -453,3 +453,52 @@
 
 优先顺序：
 1. **规划下一批**：当前 roadmap 已完成，需要制定新的学习目标
+
+---
+
+### 2026-03-02 — PostCreator + Reviewable + Search 系统
+
+- **PostCreator 核心创建流程**：
+  - `PostCreator.create(user, opts)` 是唯一正确的帖子创建入口
+  - create 方法执行顺序：valid? → transaction（build_stats, create_topic, save_post, track_topic, update_stats） → publish → trigger_after_events → enqueue_jobs → auto_close
+  - 新话题 vs 回复：回复用 `DistributedMutex.synchronize("topic_id_xxx")` 保证 post_number 单调递增无间隙
+  - skip_jobs 模式：事务内调用 PostCreator 必须 `skip_jobs: true`，commit 后手动 `enqueue_jobs`
+  - 三个 DiscourseEvent 触发点：`:before_create_post`（验证前）、`:topic_created`（新话题）、`:post_created`（每次）
+  - 唯一帖子检查：Redis key `unique[-pm]-post-{user_id}:{raw_hash}` 防重复提交
+  - auto_close：私信/公开话题都有 max_posts 自动关闭逻辑
+
+- **Reviewable 审核系统**：
+  - 4 种内置类型：ReviewableFlaggedPost / ReviewableQueuedPost / ReviewableUser / ReviewablePost
+  - 状态机：pending → approved / rejected / ignored / deleted
+  - 必须用 `needs_review!` 而非 `.create`：自动处理重复 target（upsert 回 pending）
+  - Score 系统：trust_level_bonus + type_bonus + take_action_bonus，决定优先级和自动动作阈值
+  - 子类必须实现 `build_actions` + `perform_{action_id}` 方法
+  - Plugin 注册：`DiscoursePluginRegistry.register_reviewable_type(MyReviewable, plugin: self)`
+
+- **Search 搜索系统**：
+  - 底层：PostgreSQL tsvector/tsquery + gin 索引（post_search_data 表）
+  - 多语言：中文用 CppjiebaRb 分词，日文用 TinyJapaneseSegmenter，其他用 PostgreSQL stemmer
+  - 高级过滤器语法全部内联在搜索词中（status:solved、category:name、tags:tag1+tag2 等）
+  - Plugin 扩展：`Search.advanced_filter(/\Astatus:solved\z/i) { |posts| }` 注册自定义过滤
+  - Plugin 扩展排序：`Search.advanced_order(:name) { |posts| posts.reorder(...) }`
+  - 搜索日志：每次搜索自动记录到 search_logs 表
+
+- **验证来源**：
+  - `lib/post_creator.rb`、`app/models/post.rb`
+  - `app/models/reviewable.rb`、`app/models/reviewable_flagged_post.rb`
+  - `lib/search.rb`（700+ 行）
+
+- **输出文件**：
+  - `ruby/11_post_topic_creator.md`（新建）
+  - `ruby/12_reviewable.md`（新建）
+  - `ruby/13_search.md`（新建）
+
+---
+
+## 🔜 下一步建议
+
+优先顺序：
+1. **Mailer 邮件系统**：`app/mailers/`、UserNotifications、邮件模板、ActionMailer 规范
+2. **TopicQuery**：`lib/topic_query.rb`，话题列表构建、filter 机制
+3. **DiscourseConnect / SSO**：`lib/discourse_connect_base.rb`
+4. **Wizard 系统**：`lib/wizard/`，安装向导框架
