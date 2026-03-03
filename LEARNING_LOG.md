@@ -537,3 +537,20 @@
   - `plugins/04_value_transformer_dag.md`（新建）
   - `plugins/05_modify_class.md`（新建）
 
+
+---
+
+### 2026-03-03（续）— 插件开发全面扩展（UI、数据库、后端）
+
+**本批目标**：覆盖插件开发者实际需要的全部重要功能模块，包括 Post UI 注入、Modal 弹窗、用户侧 UI、管理后台、数据库/Engine、后端 modifier。
+
+- **06_tracked_post_and_render_outlet.md**：addTrackedPostProperties + renderAfterWrapperOutlet，static shouldRender，完整端到端流程（serializer→tracked→UI→MessageBus）
+- **07_modal_and_ui_components.md**：DModal 骨架（具名 block body/footer）、@tagName="form" 提交模式、自定义 Service 封装 modal.show（task-actions 模式）、TrackedObject、DButton 参数速查
+- **08_user_ui_extensions.md**：registerUserMenuTab（id/panelComponent/icon/count/linkWhenActive）、registerNotificationTypeRenderer、用户偏好 Connector 插槽速查、ComboBox 双向绑定、用户活动页导航 Connector
+- **09_admin_ui.md**：setAdminPluginIcon、Admin 插件专属页面目录结构、Admin Connector 插槽速查、add_report（labels/data/DB.query）、动态列报表
+- **10_plugin_model_and_db.md**：Rails Engine（isolate_namespace/autoload_paths/mount）、迁移规范（change vs up/down，禁止修改历史）、Model 命名空间隔离/polymorphic/scope/validate、Engine Controller（requires_plugin/render_json_error）、预加载防 N+1（TopicList/TopicView/BookmarkQuery.on_preload）
+- **11_register_modifier_backend.md**：管道机制（block 返回值成为下一个输入）、三类参数（QueryBuilder/AR Relation/Array）、must return value、always in after_initialize
+
+**验证来源**：discourse-assign 插件全文、discourse-reactions/plugin.rb、discourse-chat-integration/admin/、lib/discourse_plugin_registry.rb
+
+**输出文件**：plugins/06 ~ plugins/11 共 6 个文件
