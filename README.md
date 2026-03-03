@@ -93,10 +93,7 @@ discoursedevskills/
 │   ├── 02_plugin_frontend.md        ✅ 前端扩展
 │   ├── 02_plugin_api_frontend.md    ✅ Plugin API
 │   ├── 03_plugin_settings.md        ✅ Plugin 设置
-│   ├── 12_api_initializer_and_ui_injection.md ✅ apiInitializer / Composer 工具栏 / 批量操作等
-│   ├── 13_backend_advanced_patterns.md      ✅ EntryPoint / hijack / Controller Concern / 高级 DSL
-│   ├── 14_plugin_service_frontend.md        ✅ 插件 Ember Service 四种模式
-│   └── 15_admin_multi_page.md               ✅ Admin 多子页面（addAdminPluginConfigurationNav）
+│   ├── 04_value_transformer_dag.md  ✅ registerValueTransformer + DAG
 │   ├── 05_modify_class.md           ✅ modifyClass 规范
 │   ├── 06_tracked_post_and_render_outlet.md ✅ addTrackedPostProperties + renderAfterWrapperOutlet
 │   ├── 07_modal_and_ui_components.md ✅ DModal + 自定义 Service（弹窗 UI）
@@ -107,7 +104,12 @@ discoursedevskills/
 │   ├── 12_api_initializer_and_ui_injection.md ✅ apiInitializer 高级 / Composer 工具栏 / 批量操作
 │   ├── 13_backend_advanced_patterns.md ✅ EntryPoint / hijack / Controller Concern / 高级 DSL
 │   ├── 14_plugin_service_frontend.md ✅ 插件 Ember Service 四种模式
-│   └── 15_admin_multi_page.md       ✅ Admin 多子页面（addAdminPluginConfigurationNav）
+│   ├── 15_admin_multi_page.md       ✅ Admin 多子页面（addAdminPluginConfigurationNav）
+│   ├── 16_plugin_route_map.md       ✅ 插件前端路由（route-map / Route / Template）
+│   ├── 17_topic_list_columns.md     ✅ topic-list 自定义列与行样式
+│   ├── 18_on_event_system.md        ✅ on() 事件系统完整规范（40+ 事件速查表）
+│   ├── 19_notification_consolidation.md ✅ 通知合并（ConsolidateNotifications / DeletePreviousNotifications）
+│   └── 20_admin_rest_model_adapter.md ✅ Admin RestModel + RestAdapter 完整数据层规范
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
