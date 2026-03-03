@@ -82,14 +82,21 @@ discoursedevskills/
 │   ├── 02_plugin_frontend.md        ✅ 前端扩展
 │   ├── 02_plugin_api_frontend.md    ✅ Plugin API
 │   ├── 03_plugin_settings.md        ✅ Plugin 设置
-│   ├── 04_value_transformer_dag.md  ✅ registerValueTransformer + DAG
+│   ├── 12_api_initializer_and_ui_injection.md ✅ apiInitializer / Composer 工具栏 / 批量操作等
+│   ├── 13_backend_advanced_patterns.md      ✅ EntryPoint / hijack / Controller Concern / 高级 DSL
+│   ├── 14_plugin_service_frontend.md        ✅ 插件 Ember Service 四种模式
+│   └── 15_admin_multi_page.md               ✅ Admin 多子页面（addAdminPluginConfigurationNav）
 │   ├── 05_modify_class.md           ✅ modifyClass 规范
 │   ├── 06_tracked_post_and_render_outlet.md ✅ addTrackedPostProperties + renderAfterWrapperOutlet
 │   ├── 07_modal_and_ui_components.md ✅ DModal + 自定义 Service（弹窗 UI）
 │   ├── 08_user_ui_extensions.md     ✅ 用户菜单 / 偏好 / 活动页扩展
 │   ├── 09_admin_ui.md               ✅ 管理后台 UI（插件页 / Report / Connector）
 │   ├── 10_plugin_model_and_db.md    ✅ 插件 Model + Engine + 数据库迁移
-│   └── 11_register_modifier_backend.md ✅ register_modifier 后端管道规范
+│   ├── 11_register_modifier_backend.md ✅ register_modifier 后端管道规范
+│   ├── 12_api_initializer_and_ui_injection.md ✅ apiInitializer / Composer 工具栏 / 批量操作等
+│   ├── 13_backend_advanced_patterns.md ✅ EntryPoint / hijack / Controller Concern / 高级 DSL
+│   ├── 14_plugin_service_frontend.md ✅ 插件 Ember Service 四种模式
+│   └── 15_admin_multi_page.md       ✅ Admin 多子页面（addAdminPluginConfigurationNav）
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
@@ -106,9 +113,10 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 中 | plugins/12_topic_list_columns.md | topic-list-columns transformer + 自定义列 | plugins/discourse-assign/initializers/ |
-| 中 | plugins/13_plugin_service_frontend.md | 插件自定义 Ember Service 完整规范 | plugins/discourse-assign/services/ |
-| 低 | plugins/14_notification_consolidation.md | register_notification_consolidation_plan | plugins/discourse-reactions/plugin.rb |
+| 高 | plugins/16_topic_list_transformer.md | topic-list-item-class + 自定义列 | discourse-ai/ai-gist-topic-list-class.js |
+| 高 | plugins/17_notification_consolidation.md | register_notification_consolidation_plan | discourse-reactions/plugin.rb |
+| 中 | javascript/07_select_kit.md | SelectKit / ComboBox / MultiSelect 前端规范 | discourse/app/components/select-kit/ |
+| 中 | ruby/09_notifications.md | 后端通知系统（Notification types, push） | discourse/app/models/notification.rb |
 
 ---
 

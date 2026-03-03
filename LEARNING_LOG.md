@@ -554,3 +554,61 @@
 **验证来源**：discourse-assign 插件全文、discourse-reactions/plugin.rb、discourse-chat-integration/admin/、lib/discourse_plugin_registry.rb
 
 **输出文件**：plugins/06 ~ plugins/11 共 6 个文件
+
+---
+
+### 2026-03-03（续二）— discourse-ai 深度挖掘，覆盖 4 个核心缺口
+
+**数据来源**：`plugins/discourse-ai/`（全目录 + 重点文件），`lib/hijack.rb`
+
+**完成内容：**
+
+- **12_api_initializer_and_ui_injection.md**：
+  - `apiInitializer` vs `withPluginApi` 选择规则（`api.container.lookup` 等价）
+  - `api.onToolbarCreate / toolbar.addButton`（Composer 工具栏，toolbarEvent 方法速查）
+  - `api.registerTopicFooterButton`（话题脚注按钮，dependentKeys 响应式依赖）
+  - `api.headerIcons.add`（顶部导航栏图标）
+  - `api.addCommunitySectionLink`（侧边栏社区链接，baseSectionLink 继承模式）
+  - `api.renderInOutlet` vs `renderAfterWrapperOutlet`（区别对比表）
+  - `api.addBulkActionButton`（批量操作按钮，actionType: performAndRefresh）
+  - `api.addTopicAdminMenuButton`（话题管理菜单项）
+  - `api.registerReportModeComponent` + `optionalRequire`（自定义报表渲染 + 可选依赖）
+
+- **13_backend_advanced_patterns.md**：
+  - EntryPoint 模式：`inject_into(plugin)` 方法按功能模块拆分 after_initialize 逻辑
+  - `Rails.autoloaders.main.push_dir(File.join(__dir__, "lib"), namespace: DiscourseAi)` — 自动加载（必须在 after_initialize 之前）
+  - `hijack do...end` — 长时 IO 请求解放 Worker，rescue 必须写在 block 内部
+  - Controller Concern（`extend ActiveSupport::Concern` + `included do rescue_from`）
+  - RATE_LIMITS 常量 + `action_name` 按 action 分级限流
+  - plugin.rb 高级 DSL：`add_admin_route`、`register_seedfu_fixtures`、`register_reviewable_type`、`register_problem_check`、`add_api_key_scope`、`add_model_callback`
+  - `add_to_serializer include_condition` 动态条件（lambda，可引用 scope/object/其他字段）
+  - Admin Controller 继承 `::Admin::AdminController` 规范
+
+- **14_plugin_service_frontend.md**：
+  - 轻量状态服务：`@tracked` + 操作方法，跨组件共享
+  - localStorage 偏好服务：`#loadPreference()` 私有方法 + 迁移 key 逻辑 + `router.currentRoute.attributes` 动态读取路由数据
+  - 请求去重服务：ES # 私有字段 `#pendingRequests = new Map()` + Promise 缓存 + then/catch 自动清理
+  - constructor/willDestroy 生命周期：appEvents on/off + messageBus subscribe/unsubscribe（必须成对）
+  - `discourseDebounce` + 无限滚动分页（isFetching 防重 + hasMore 终止）
+  - `addSidebarSection` 动态添加侧边栏区块（需要先 `api.addSidebarPanel` 注册面板）
+  - `TrackedArray` + `scheduleOnce("afterRender")` 防多次触发
+
+- **15_admin_multi_page.md**：
+  - `addAdminPluginConfigurationNav(PLUGIN_ID, [{label, route, description}])` 子导航配置
+  - 路由名规律：`adminPlugins.show.{plugin-id}-{子页面}`
+  - `admin-xxx-plugin-route-map.js`：`resource: "admin.adminPlugins.show"` + 嵌套路由（new/edit）
+  - 文件目录：`admin/assets/javascripts/discourse/routes/admin-plugins/show/` + `templates/admin-plugins/show/`
+  - Route 加载数据：`store.findAll` / `store.find` / `.content` 取数组
+  - 模板 import 路径计算（按目录深度数 `../` 级别）
+  - Admin Store Model + Adapter（`basePath` 覆盖 URL 前缀）
+  - `add_admin_route("i18n_key", "plugin-id", { use_new_show_route: true })`（必须加 `use_new_show_route`）
+
+**验证来源**：
+- `plugins/discourse-ai/assets/javascripts/discourse/initializers/` 全部文件
+- `plugins/discourse-ai/services/` 全部 4 个 Service 文件
+- `plugins/discourse-ai/admin/assets/` 路由 + 模板目录
+- `plugins/discourse-ai/app/controllers/` AI helper + Admin personas controller
+- `plugins/discourse-ai/lib/{ai_helper,summarization}/entry_point.rb`
+- `lib/hijack.rb`（hijack 完整实现）
+
+**输出文件**：plugins/12 ~ plugins/15 共 4 个文件
