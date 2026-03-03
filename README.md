@@ -11,18 +11,28 @@
 
 1. **读 LEARNING_LOG.md**：确认上次进度、已完成项、待开始项
 2. **用 git log 验证**：`git log --oneline -5` 确认上次 commit 内容与 LOG 一致
-3. **完成新任务**：阅读源码 → 整理到对应 md 文件
-4. **更新 LEARNING_LOG.md**：填写本次学习内容、验证来源、输出文件
-5. **git commit**：每完成一个主题就立即 commit，不要积攒
+3. **读 TOPIC_MAP.md**：确认即将写的主题是否与已有文件边界冲突
+4. **完成新任务**：阅读源码 → 整理到对应 md 文件
+5. **更新 TOPIC_MAP.md**：新文件完成后，登记主题边界
+6. **更新 LEARNING_LOG.md**：填写本次学习内容、验证来源、输出文件
+7. **git commit**：按阶段提交，不要积攒（见提交规范）
 
 ```bash
-# 每完成一个主题立即 commit
+# WIP 阶段（源码读完，文件草稿未验证完）
 git add -A
-git commit -m "feat: 完成 ruby/08_guardian.md — Guardian权限系统"
+git commit -m "wip: 草稿 plugins/16_topic_list — 源码阅读完，待第二处验证"
 
-# 若只更新进度记录
-git add LEARNING_LOG.md README.md
-git commit -m "chore: 更新进度记录，标记guardian完成，下一步routes"
+# 完成阶段（两处验证通过，文件完整）
+git add -A
+git commit -m "feat: 完成 plugins/16_topic_list.md — topic-list-item-class"
+
+# 修改已有文件
+git add -A
+git commit -m "fix: 补充 ruby/08_guardian.md — 新增与 register_modifier 组合的反模式"
+
+# 仅更新进度记录
+git add LEARNING_LOG.md README.md TOPIC_MAP.md
+git commit -m "chore: 更新进度记录，标记 16 完成，下一步 17_notification"
 ```
 
 ---
@@ -54,6 +64,7 @@ README 是整个知识库的导航核心，修改需谨慎。
 discoursedevskills/
 ├── README.md                        ← 本文件：总览 + 学习规范 + 工作流
 ├── LEARNING_LOG.md                  ← 学习进度记录（每次必读必写）
+├── TOPIC_MAP.md                     ← 主题边界注册表（防止重叠，每次新文件后更新）
 │
 ├── ruby/                            ← Ruby / Rails 后端规范
 │   ├── 01_service_objects.md        ✅ Service::Base DSL
@@ -69,7 +80,7 @@ discoursedevskills/
 │   ├── 01_component_gjs.md          ✅ Glimmer Component (.gjs)
 │   ├── 02_services.md               ✅ Ember Service 单例模式
 │   ├── 03_routes.md                 ✅ Ember Routes
-│   └── 04_models.md                 ✅ Ember Store 与 Model
+│   ├── 04_models.md                 ✅ Ember Store 与 Model
 │   └── 05_qunit_testing.md          ✅ Unit + Integration 测试
 │
 ├── system_specs/                    ← 系统测试 / Page Objects
@@ -77,8 +88,8 @@ discoursedevskills/
 │   └── 02_system_spec_patterns.md   ✅ 系统测试通用模式
 │
 ├── plugins/                         ← Plugin 开发规范
-│   ├── 01_plugin_structure.md       ✅ Plugin 目录结构
-│   ├── 01_plugin_rb_and_backend.md  ✅ plugin.rb + 后端扩展
+│   ├── 01_plugin_structure.md       ✅ Plugin 目录结构（文件布局，命名规范）
+│   ├── 01_plugin_rb_and_backend.md  ✅ plugin.rb + 后端扩展入口
 │   ├── 02_plugin_frontend.md        ✅ 前端扩展
 │   ├── 02_plugin_api_frontend.md    ✅ Plugin API
 │   ├── 03_plugin_settings.md        ✅ Plugin 设置
@@ -93,7 +104,7 @@ discoursedevskills/
 │   ├── 09_admin_ui.md               ✅ 管理后台 UI（插件页 / Report / Connector）
 │   ├── 10_plugin_model_and_db.md    ✅ 插件 Model + Engine + 数据库迁移
 │   ├── 11_register_modifier_backend.md ✅ register_modifier 后端管道规范
-│   ├── 12_api_initializer_and_ui_injection.md ✅ apiInitializer / Composer 工具栏 / 批量操作等
+│   ├── 12_api_initializer_and_ui_injection.md ✅ apiInitializer 高级 / Composer 工具栏 / 批量操作
 │   ├── 13_backend_advanced_patterns.md ✅ EntryPoint / hijack / Controller Concern / 高级 DSL
 │   ├── 14_plugin_service_frontend.md ✅ 插件 Ember Service 四种模式
 │   └── 15_admin_multi_page.md       ✅ Admin 多子页面（addAdminPluginConfigurationNav）
@@ -106,6 +117,8 @@ discoursedevskills/
     ├── 01_commands.md               ✅ 常用开发命令
     └── 02_linting_formatting.md     ✅ Lint + 格式化规范
 ```
+
+> ⚠️ **目录即真相**：README 的目录结构必须与磁盘文件一一对应。发现不一致时，以磁盘为准，立即修正 README。
 
 ---
 
@@ -126,7 +139,8 @@ discoursedevskills/
 
 ### 文件命名
 - 使用 `序号_主题名称.md` 格式，如 `01_service_objects.md`
-- 序号确保阅读顺序
+- 序号在各自文件夹内唯一，不得重复
+- 新建文件前先检查 TOPIC_MAP.md，确认主题尚未被覆盖
 
 ### 文件内部结构（强制）
 
@@ -134,14 +148,28 @@ discoursedevskills/
 # [主题名称]
 
 > 来源：`源码路径`
+> 修订历史：
+> - YYYY-MM-DD 初版
+> - YYYY-MM-DD 补充 xxx（来源：xxx）
+
+## 边界声明
+- **本文件负责**：xxx（一句话）
+- **不负责，见其他文件**：
+  - xxx → 文件路径
+  - xxx → 文件路径
+- **与以下文件有交叉，已在 TOPIC_MAP 协调**：
+  - 文件路径（本文只写 xxx，那边只写 yyy）
 
 ## 概述
 一句话说明这个规范解决什么问题。
 
 ## 来源验证
-列出在真实代码中验证过的文件路径（至少 2 处）。
-必须是不同的独立环境，比如不同的插件，是否都使用
-同文件内验证，不同文件验证。（必须）
+列出在真实代码中验证过的文件路径（至少 2 处，必须来自相对独立的文件或插件）。
+
+| 验证点 | 文件路径 | 关键行 / 方法名 | 与其他验证点的差异 |
+|--------|---------|---------------|-----------------|
+| 验证 1 | path/to/file.rb | `def can_xxx` | 基础用法 |
+| 验证 2 | path/to/other.rb | `def can_xxx` | 差异点：使用了 scope 参数 |
 
 ## 核心规范
 
@@ -162,20 +190,78 @@ discoursedevskills/
 ```
 
 ### 质量标准
-1. **多处验证**：每条规范必须在代码库中找到 ≥2 处实例，相对独立的文件中重现
-2. **代码优先**：用真实代码说话，不写空洞描述
-3. **精简原则**：每个文件聚焦一个主题，不超 500 行
-4. **可操作性**：读完能直接用，不是理论
+1. **多处验证**：每条规范必须在代码库中找到 ≥2 处实例，来自相对独立的文件（不同插件或不同模块）
+2. **验证差异记录**：若两处实现有差异，必须说明以哪个为准及原因
+3. **代码优先**：用真实代码说话，不写空洞描述
+4. **精简原则**：每个文件聚焦一个主题，不超 500 行
+5. **可操作性**：读完能直接用，不是理论
+
+---
+
+## 📓 LEARNING_LOG 格式规范
+
+每次学习必须按以下格式记录，不得省略字段：
+
+```markdown
+## YYYY-MM-DD — [文件路径]
+
+**状态**：🔄 进行中 / ✅ 完成 / ❌ 中止
+
+**本次完成**：
+- 阅读了 xxx 文件
+- 整理了 xxx 规范，写入 xxx 章节
+
+**下次从这里开始**（进行中时必填）：
+- 待完成：还需验证第二处来源（目标文件：xxx）
+- 待完成：反模式章节未写
+
+**验证来源**：
+- `路径 A`：第 xx 行，印证了 xxx，关键方法 `def xxx`
+- `路径 B`：第 xx 行，与 A 的差异在于 xxx，以 A 为准因为 xxx
+
+**中止原因**（中止时必填）：
+- 原因说明，判断下次是否值得继续还是重来
+
+**关联更新**：
+- TOPIC_MAP.md 已更新 / 待更新
+- README 目录 ✅ 已更新
+```
+
+---
+
+## 🗺 TOPIC_MAP 格式规范
+
+`TOPIC_MAP.md` 是防止内容重叠的核心文件，每完成一个新文件后必须更新。
+
+```markdown
+# TOPIC_MAP.md — 主题边界注册表
+
+> 每个关键词只有一个「权威文件」。其他文件涉及相关内容时，只写本文件特有的扩展点，
+> 通用逻辑一律引用权威文件，不重复。
+
+| 主题关键词 | 权威文件（唯一） | 可引用但不重复写的文件 | 边界说明 |
+|-----------|----------------|---------------------|---------|
+| Guardian 权限 | ruby/08_guardian.md | plugins/02_plugin_rb_and_backend.md | 后者只写"plugin.rb 里如何注册 guardian 扩展点"，`can?` 判断逻辑不重复 |
+| Ember Service 通用 | javascript/02_services.md | plugins/14_plugin_service_frontend.md | 后者只写 plugin 特有的注册方式（`withPluginApi`），Service 本身的生命周期不重复 |
+| DB Migration | ruby/06_migrations_db.md | plugins/10_plugin_model_and_db.md | 后者只写 plugin 引入新表的特殊注意点，SafeMigrate 规范不重复 |
+| Admin UI 基础 | plugins/09_admin_ui.md | plugins/15_admin_multi_page.md | 后者只写多子页面导航扩展，单页 Admin 不重复 |
+| apiInitializer 基础 | plugins/04_plugin_api_frontend.md | plugins/12_api_initializer_and_ui_injection.md | 后者只写高级注入场景，基础 `withPluginApi` 结构不重复 |
+```
+
+> 新建文件时必须先在此表登记，确认没有与已有权威文件重叠。若发现已有权威文件不够用，
+> 先修改权威文件，再决定是否新建。
 
 ---
 
 ## 🗂 学习方法
 
-1. 选定主题 → 在代码库中搜索相关文件
-2. 阅读 2-4 个典型实现，比对异同
-3. 提炼规律，记录到对应 skill 文件
-4. 更新 `LEARNING_LOG.md` 打卡
-5. 下次继续前先看 LEARNING_LOG 回顾进度
+1. 选定主题 → 查 TOPIC_MAP.md 确认边界，避免与已有文件重叠
+2. 在代码库中搜索相关文件，找 2-4 个典型实现
+3. 比对异同 → 记录差异点和取舍依据
+4. 整理到对应 skill 文件，填写"边界声明"和"验证来源"表格
+5. 更新 TOPIC_MAP.md，登记新文件的主题边界
+6. 更新 LEARNING_LOG.md 打卡
+7. git commit（见提交规范）
 
 ---
 
@@ -186,6 +272,7 @@ discoursedevskills/
 cd /Users/qilu/Desktop/develop/discoursedevskills
 git log --oneline -10
 cat LEARNING_LOG.md
+cat TOPIC_MAP.md
 
 # 搜索源码（Ruby）
 grep -r "pattern" /Users/qilu/Desktop/develop/discourse/app/ --include="*.rb"
@@ -194,4 +281,7 @@ ls /Users/qilu/Desktop/develop/discourse/lib/guardian/
 # 搜索源码（JavaScript）
 ls /Users/qilu/Desktop/develop/discourse/frontend/discourse/app/services/
 ls /Users/qilu/Desktop/develop/discourse/frontend/discourse/app/routes/
+
+# 检查目录与 README 是否一致
+find . -name "*.md" | grep -v README | grep -v LEARNING_LOG | grep -v TOPIC_MAP | sort
 ```
