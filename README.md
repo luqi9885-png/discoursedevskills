@@ -105,7 +105,12 @@ discoursedevskills/
 │   ├── 05_rspec_testing.md          ✅ fab! + Fabrication
 │   ├── 06_migrations_db.md          ✅ 迁移安全规范 + SafeMigrate
 │   ├── 07_jobs.md                   ✅ Regular / Scheduled Jobs
-│   └── 08_guardian.md               ✅ Guardian 权限系统
+│   ├── 08_guardian.md               ✅ Guardian 权限系统
+│   ├── 09_notification.md           ✅ Notification 系统
+│   ├── 10_rate_limiter.md           ✅ RateLimiter 限流模式
+│   ├── 11_post_topic_creator.md     ✅ PostCreator & TopicCreator 核心创建流程
+│   ├── 12_reviewable.md             ✅ Reviewable 审核系统
+│   └── 13_search.md                 ✅ Search 搜索系统
 │
 ├── javascript/                      ← JavaScript / Ember 前端规范
 │   ├── 01_component_gjs.md          ✅ Glimmer Component (.gjs)
@@ -145,11 +150,15 @@ discoursedevskills/
 │   ├── 21_database_operations.md    ✅ DB/AR 混合操作、PluginStore、CustomFields、upsert_all
 │   ├── 22_serializer_extensions.md  ✅ add_to_serializer、预加载、scope、topic_view vs topic_list_item
 │   ├── 23_routes_and_guardian.md    ✅ 插件路由注册 + GuardianExtensions + ensure_can_xxx! 自动派生
-│   └── 24_i18n_and_locale.md        ✅ server/client 两套 locale 文件、复数形式、用户语言切换
+│   ├── 24_i18n_and_locale.md        ✅ server/client 两套 locale 文件、复数形式、用户语言切换
+│   └── 25_plugin_testing.md         ✅ 插件 RSpec 测试（Fabricator/request spec/model spec/job spec/shared_context）
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
-│   └── 02_full_plugin_flow.md       ✅ 完整 Plugin 开发流程
+│   ├── 02_full_plugin_flow.md       ✅ 完整 Plugin 开发流程
+│   ├── 03_discourse_event.md        ✅ DiscourseEvent 事件系统
+│   ├── 04_custom_fields.md          ✅ Custom Fields
+│   └── 05_plugin_backend_dsl.md     ✅ Plugin 后端 DSL 完整参考
 │
 └── tooling/                         ← 工具链规范
     ├── 01_commands.md               ✅ 常用开发命令
@@ -164,9 +173,8 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 高 | plugins/25_plugin_testing.md | 插件 RSpec 测试（fab!、plugin_factory、system spec） | discourse-assign/spec/、discourse-reactions/spec/ |
-| 中 | javascript/07_select_kit.md | SelectKit / ComboBox / MultiSelect 前端规范 | discourse/app/components/select-kit/ |
-| 中 | plugins/25_search_extension.md | 插件扩展 Search（register_modifier + custom filter） | discourse-assign/plugin.rb search 段 |
+| 高 | javascript/07_select_kit.md | SelectKit / ComboBox / MultiSelect 前端规范 | discourse/app/components/select-kit/ |
+| 中 | plugins/26_search_extension.md | 插件扩展 Search（register_modifier + custom filter） | discourse-assign/plugin.rb search 段 |
 
 ---
 

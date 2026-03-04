@@ -637,3 +637,32 @@
 - TOPIC_MAP.md 已更新（新增 MessageBus 前端条目）
 - README 目录 ✅ 已更新（javascript/06 加入目录，待完成任务已更新）
 - 同次提交：创建 TOPIC_MAP.md（之前不存在）、README 补充 21~24 目录条目
+
+## 2026-03-04 — plugins/25_plugin_testing.md
+
+**状态**：✅ 完成
+
+**本次完成**：
+- 阅读 `discourse-assign/spec/fabricators/assignment_fabricator.rb`（transient + 动态关联）
+- 阅读 `discourse-assign/spec/fabricators/notification_fabricator.rb`（from: 继承）
+- 阅读 `discourse-assign/spec/requests/assign_controller_spec.rb`（request spec 完整模式）
+- 阅读 `discourse-assign/spec/models/assignment_spec.rb`（model spec + described_class）
+- 阅读 `discourse-assign/spec/jobs/regular/assign_notification_spec.rb`（job spec + Mocha）
+- 阅读 `discourse-assign/spec/support/assign_allowed_group.rb`（shared_context）
+- 阅读 `discourse-reactions/spec/fabricators/reaction_fabricator.rb`（class_name 命名空间）
+- 阅读 `discourse-reactions/spec/requests/custom_reactions_controller_spec.rb`（多 fab! 场景）
+- 整理 `plugins/25_plugin_testing.md`（469 行）
+- 收尾：发现 README 漏登记 8 个文件（patterns/03~05、ruby/09~13），已补入
+
+**验证来源**：
+- `assign_controller_spec.rb`：`fab!` + `sign_in` + `require_relative support` + `response.parsed_body`，标准 request spec 模式
+- `custom_reactions_controller_spec.rb`：与 assign 差异在大量 fab! 预建关联数据 + before 中设多个 SiteSetting
+- `assignment_fabricator.rb`：`transient :post` + `target { |attrs| }` 动态关联，assign 中独有
+- `reaction_fabricator.rb`：`class_name: "DiscourseReactions::Reaction"` 字符串形式，有命名空间时必须
+- `assign_notification_spec.rb`：Mocha `stubs/expects` 风格，Discourse 统一用 Mocha 不用 RSpec double
+- `assign_allowed_group.rb`：`shared_context` + helper 方法 + `include_context` 复用模式
+
+**关联更新**：
+- TOPIC_MAP.md ✅ 已更新（新增 plugins/25 条目）
+- README 目录 ✅ 已更新（补登记 patterns/03~05、ruby/09~13、plugins/25）
+- 待完成任务已更新（移除 plugins/25）
