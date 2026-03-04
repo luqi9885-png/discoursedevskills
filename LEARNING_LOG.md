@@ -612,3 +612,28 @@
 - `lib/hijack.rb`（hijack 完整实现）
 
 **输出文件**：plugins/12 ~ plugins/15 共 4 个文件
+
+## 2026-03-04 — javascript/06_message_bus.md
+
+**状态**：✅ 完成
+
+**本次完成**：
+- 阅读 `frontend/discourse/app/instance-initializers/read-only.js`（标准单频道模式）
+- 阅读 `frontend/discourse/app/instance-initializers/banner.js`（PreloadStore + 订阅组合）
+- 阅读 `frontend/discourse/app/instance-initializers/subscribe-user-notifications.js`（多频道 + position 参数）
+- 阅读 `plugins/discourse-assign/components/flagged-topic-listener.js`（旧式 Component 模式）
+- 阅读 `plugins/discourse-assign/initializers/extend-for-assigns.js:455-530`（modifyClass Controller 覆盖 subscribe/unsubscribe）
+- 阅读 `plugins/discourse-assign/lib/assigner.rb:447,528`（后端 MessageBus.publish 对应）
+- 整理 `javascript/06_message_bus.md`（379 行）
+
+**验证来源**：
+- `instance-initializers/read-only.js`：`@service messageBus` + `@bind` + `setOwner` 标准三件套，最简模式
+- `instance-initializers/banner.js`：PreloadStore 初始值 + subscribe 实时更新，与 read-only.js 差异：多了 EmberObject.create 包装
+- `instance-initializers/subscribe-user-notifications.js:40-70`：带第三参数 `position`（`last_id`）避免重放历史消息
+- `extend-for-assigns.js:462-520`：modifyClass Controller 必须调 `super.subscribe()`，否则核心订阅丢失
+- `assigner.rb:447,528`：后端 `user_ids:` 参数限定接收者，与前端频道路径对应
+
+**关联更新**：
+- TOPIC_MAP.md 已更新（新增 MessageBus 前端条目）
+- README 目录 ✅ 已更新（javascript/06 加入目录，待完成任务已更新）
+- 同次提交：创建 TOPIC_MAP.md（之前不存在）、README 补充 21~24 目录条目

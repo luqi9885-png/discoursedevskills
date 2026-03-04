@@ -81,7 +81,8 @@ discoursedevskills/
 │   ├── 02_services.md               ✅ Ember Service 单例模式
 │   ├── 03_routes.md                 ✅ Ember Routes
 │   ├── 04_models.md                 ✅ Ember Store 与 Model
-│   └── 05_qunit_testing.md          ✅ Unit + Integration 测试
+│   ├── 05_qunit_testing.md          ✅ Unit + Integration 测试
+│   └── 06_message_bus.md            ✅ MessageBus 前端订阅规范（subscribe/unsubscribe/@bind/instance-initializer）
 │
 ├── system_specs/                    ← 系统测试 / Page Objects
 │   ├── 01_page_objects.md           ✅ Page Objects 系统测试
@@ -109,7 +110,11 @@ discoursedevskills/
 │   ├── 17_topic_list_columns.md     ✅ topic-list 自定义列与行样式
 │   ├── 18_on_event_system.md        ✅ on() 事件系统完整规范（40+ 事件速查表）
 │   ├── 19_notification_consolidation.md ✅ 通知合并（ConsolidateNotifications / DeletePreviousNotifications）
-│   └── 20_admin_rest_model_adapter.md ✅ Admin RestModel + RestAdapter 完整数据层规范
+│   ├── 20_admin_rest_model_adapter.md ✅ Admin RestModel + RestAdapter 完整数据层规范
+│   ├── 21_database_operations.md    ✅ DB/AR 混合操作、PluginStore、CustomFields、upsert_all
+│   ├── 22_serializer_extensions.md  ✅ add_to_serializer、预加载、scope、topic_view vs topic_list_item
+│   ├── 23_routes_and_guardian.md    ✅ 插件路由注册 + GuardianExtensions + ensure_can_xxx! 自动派生
+│   └── 24_i18n_and_locale.md        ✅ server/client 两套 locale 文件、复数形式、用户语言切换
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
@@ -128,10 +133,9 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 高 | plugins/16_topic_list_transformer.md | topic-list-item-class + 自定义列 | discourse-ai/ai-gist-topic-list-class.js |
-| 高 | plugins/17_notification_consolidation.md | register_notification_consolidation_plan | discourse-reactions/plugin.rb |
+| 高 | plugins/25_plugin_testing.md | 插件 RSpec 测试（fab!、plugin_factory、system spec） | discourse-assign/spec/、discourse-reactions/spec/ |
 | 中 | javascript/07_select_kit.md | SelectKit / ComboBox / MultiSelect 前端规范 | discourse/app/components/select-kit/ |
-| 中 | ruby/09_notifications.md | 后端通知系统（Notification types, push） | discourse/app/models/notification.rb |
+| 中 | plugins/25_search_extension.md | 插件扩展 Search（register_modifier + custom filter） | discourse-assign/plugin.rb search 段 |
 
 ---
 
