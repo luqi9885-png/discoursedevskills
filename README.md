@@ -151,7 +151,8 @@ discoursedevskills/
 │   ├── 22_serializer_extensions.md  ✅ add_to_serializer、预加载、scope、topic_view vs topic_list_item
 │   ├── 23_routes_and_guardian.md    ✅ 插件路由注册 + GuardianExtensions + ensure_can_xxx! 自动派生
 │   ├── 24_i18n_and_locale.md        ✅ server/client 两套 locale 文件、复数形式、用户语言切换
-│   └── 25_plugin_testing.md         ✅ 插件 RSpec 测试（Fabricator/request spec/model spec/job spec/shared_context）
+│   ├── 25_plugin_testing.md         ✅ 插件 RSpec 测试（Fabricator/request spec/model spec/job spec/shared_context）
+│   └── 26_preloading.md             ✅ 预加载 N+1 防治（TopicList/TopicView/BookmarkQuery/Search.on_preload）
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
@@ -174,7 +175,8 @@ discoursedevskills/
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
 | 高 | javascript/07_select_kit.md | SelectKit / ComboBox / MultiSelect 前端规范 | discourse/app/components/select-kit/ |
-| 中 | plugins/26_search_extension.md | 插件扩展 Search（register_modifier + custom filter） | discourse-assign/plugin.rb search 段 |
+| 中 | plugins/27_search_filter.md | 插件扩展 Search（register_search_advanced_filter） | discourse-assign/plugin.rb search 段 |
+| 中 | plugins/27_reports.md | Report.add_report + add_directory_column | discourse-solved/plugin.rb |
 
 ---
 

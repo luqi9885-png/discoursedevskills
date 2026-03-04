@@ -666,3 +666,26 @@
 - TOPIC_MAP.md ✅ 已更新（新增 plugins/25 条目）
 - README 目录 ✅ 已更新（补登记 patterns/03~05、ruby/09~13、plugins/25）
 - 待完成任务已更新（移除 plugins/25）
+
+## 2026-03-04 — plugins/26_preloading.md
+
+**状态**：✅ 完成
+
+**本次完成**：
+- 扫描三个插件的 plugin.rb，系统识别尚未覆盖的插件开发必须主题
+- 判断最大空白是 on_preload N+1 预加载系统（横跨 4 个场景，与 Serializer 强关联）
+- 阅读 `discourse-assign/plugin.rb:166~290`（BookmarkQuery/TopicView/TopicList/Search.on_preload）
+- 阅读 `discourse-assign/plugin.rb:493~501`（add_to_class preload 存储方法）
+- 阅读 `discourse-solved/plugin.rb:195~198`（register_topic_preloader_associations + Search.custom_topic_eager_load）
+- 整理 `plugins/26_preloading.md`（291 行）
+
+**验证来源**：
+- `discourse-assign/plugin.rb:196`：TopicList.on_preload，group_by 建索引 + nil 也要注入（注释 NOTE: preloading to nil is necessary）
+- `discourse-assign/plugin.rb:190`：TopicView.on_preload，直接用 AR includes，与 TopicList 模式不同
+- `discourse-assign/plugin.rb:166`：BookmarkQuery.on_preload，需从 Topic/Post 两类 bookmark 提取 topics
+- `discourse-assign/plugin.rb:253`：Search.on_preload，入参是 results.posts 而非 topics，需反查
+- `discourse-solved/plugin.rb:196`：register_topic_preloader_associations，AR association 时的简洁替代方案
+
+**关联更新**：
+- TOPIC_MAP.md ✅ 已更新（新增 plugins/26 条目）
+- README 目录 ✅ 已更新（plugins/26 加入目录，待完成任务已更新）
