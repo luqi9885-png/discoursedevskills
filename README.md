@@ -5,17 +5,46 @@
 
 ---
 
-## 🚀 每次启动的标准流程
+## 🚀 每次开始前（启动流程）
 
 > **记忆可能丢失，每次必须先执行以下步骤再开始任何工作。**
 
 1. **读 LEARNING_LOG.md**：确认上次进度、已完成项、待开始项
 2. **用 git log 验证**：`git log --oneline -5` 确认上次 commit 内容与 LOG 一致
-3. **读 TOPIC_MAP.md**：确认即将写的主题是否与已有文件边界冲突
-4. **完成新任务**：阅读源码 → 整理到对应 md 文件
-5. **更新 TOPIC_MAP.md**：新文件完成后，登记主题边界
-6. **更新 LEARNING_LOG.md**：填写本次学习内容、验证来源、输出文件
-7. **git commit**：按阶段提交，不要积攒（见提交规范），必须检验提交内容和提交信息是否正确
+3. **内容核验**：对上次 WIP 未完成、或本次要修改的文件，执行：
+   ```bash
+   head -5 plugins/xx_xxx.md   # 读首行标题
+   ```
+   与 TOPIC_MAP 中该文件的「内容摘要」比对，确认文件实际内容与登记一致。
+   发现不符 → **优先修复，再开始新任务**
+4. **读 TOPIC_MAP.md**：确认即将写的主题是否与已有文件边界冲突
+5. **完成新任务**：阅读源码 → 整理到对应 md 文件
+
+---
+
+## 🏁 每次结束时（收尾流程）
+
+> **每次任务结束必须按顺序执行，不得跳过。**
+
+1. **核验提交内容与 message 一致**：
+   ```bash
+   git diff --cached --stat
+   ```
+   确认实际变更文件与即将写的 commit message 完全对应。
+   不一致 → 拆分提交或修正 message，**不允许将就提交**
+
+2. **核验磁盘文件与 README 目录一致**：
+   ```bash
+   find . -name "*.md" | grep -v README | grep -v LEARNING_LOG | grep -v TOPIC_MAP | grep -v ".git" | sort
+   ```
+   与 README 目录结构逐一比对（覆盖全部子文件夹）。
+   磁盘有但 README 没有 → 补登记；README 有但磁盘没有 → 标记或删除条目
+
+3. **更新 TOPIC_MAP.md**：为本次新文件登记主题边界 + 内容摘要（首行标题 + 主要章节关键词）
+
+4. **更新 LEARNING_LOG.md**：按格式填写完整（状态、验证来源、关联更新三项不得省略）
+
+5. **git commit**：按阶段提交，不要积攒（见提交规范），必须检验提交内容和提交信息是否正确
 
 ```bash
 # WIP 阶段（源码读完，文件草稿未验证完）
@@ -247,17 +276,17 @@ discoursedevskills/
 > 每个关键词只有一个「权威文件」。其他文件涉及相关内容时，只写本文件特有的扩展点，
 > 通用逻辑一律引用权威文件，不重复。
 
-| 主题关键词 | 权威文件（唯一） | 可引用但不重复写的文件 | 边界说明 |
-|-----------|----------------|---------------------|---------|
-| Guardian 权限 | ruby/08_guardian.md | plugins/02_plugin_rb_and_backend.md | 后者只写"plugin.rb 里如何注册 guardian 扩展点"，`can?` 判断逻辑不重复 |
-| Ember Service 通用 | javascript/02_services.md | plugins/14_plugin_service_frontend.md | 后者只写 plugin 特有的注册方式（`withPluginApi`），Service 本身的生命周期不重复 |
-| DB Migration | ruby/06_migrations_db.md | plugins/10_plugin_model_and_db.md | 后者只写 plugin 引入新表的特殊注意点，SafeMigrate 规范不重复 |
-| Admin UI 基础 | plugins/09_admin_ui.md | plugins/15_admin_multi_page.md | 后者只写多子页面导航扩展，单页 Admin 不重复 |
-| apiInitializer 基础 | plugins/04_plugin_api_frontend.md | plugins/12_api_initializer_and_ui_injection.md | 后者只写高级注入场景，基础 `withPluginApi` 结构不重复 |
+| 主题关键词 | 权威文件（唯一） | 内容摘要（用于启动核验） | 可引用但不重复写的文件 | 边界说明 |
+|-----------|----------------|----------------------|---------------------|---------|
+| Guardian 权限 | ruby/08_guardian.md | Guardian 权限系统；章节：can?/ensure!/scope/register_policy | plugins/02_plugin_rb_and_backend.md | 后者只写"plugin.rb 里如何注册 guardian 扩展点"，`can?` 判断逻辑不重复 |
+| Ember Service 通用 | javascript/02_services.md | Ember Service 单例模式；章节：@tracked/@service/生命周期 | plugins/14_plugin_service_frontend.md | 后者只写 plugin 特有的注册方式（`withPluginApi`），Service 本身的生命周期不重复 |
 ```
 
 > 新建文件时必须先在此表登记，确认没有与已有权威文件重叠。若发现已有权威文件不够用，
 > 先修改权威文件，再决定是否新建。
+>
+> **内容摘要格式**：`首行标题；章节：关键词1/关键词2/关键词3`
+> 启动时用 `head -5 文件名` 读首行标题与此比对，发现不符立即修复。
 
 ---
 
