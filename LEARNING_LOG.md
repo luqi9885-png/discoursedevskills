@@ -689,3 +689,29 @@
 **关联更新**：
 - TOPIC_MAP.md ✅ 已更新（新增 plugins/26 条目）
 - README 目录 ✅ 已更新（plugins/26 加入目录，待完成任务已更新）
+
+## 2026-03-04 — javascript/07_select_kit.md
+
+**状态**：✅ 完成
+
+**本次完成**：
+- 阅读 `discourse-assign/components/assignment.gjs`（ComboBox 基本用法 + EmailGroupUserChooser 完整用法）
+- 阅读 `discourse-assign/components/remind-assigns-frequency.gjs`（ComboBox + valueProperty + fn mut）
+- 阅读 `discourse-ai/components/ai-tool-selector.gjs`（MultiSelect 最简用法）
+- 阅读 `discourse-ai/components/ai-usage.gjs:401~585`（ComboBox + none + content 从 API 数据构造）
+- 阅读 `discourse-post-voting/initializers/extend-composer-actions.js:55`（modifySelectKit appendContent + onChange 链式）
+- 阅读 `select-kit/components/combo-box.js`（ComboBox 源码，确认 autoFilterable 阈值）
+- 阅读 `select-kit/components/multi-select.gjs`（MultiSelect 默认 options）
+- 阅读 `select-kit/lib/plugin-api.js:72~92`（modifySelectKit 四方法）
+- 整理 `javascript/07_select_kit.md`（331 行）
+
+**验证来源**：
+- `assignment.gjs`：EmailGroupUserChooser onChange 接收数组，maximum=1 时 `([newAssignee])` 解构；ComboBox 基本 `{id, name}` 格式
+- `remind-assigns-frequency.gjs`：`@valueProperty="value"` — content 用 `{name, value}` 时必须指定，否则选中值为 undefined
+- `ai-tool-selector.gjs`：MultiSelect 最简三参（@value/@onChange/@content），与 assignment.gjs 差异：无 emailGroupUser，纯 id 数组
+- `ai-usage.gjs:401`：content 从 API 数组 map 为 `{id, name}`，并用私有变量缓存避免重复计算
+- `extend-composer-actions.js:55`：modifySelectKit 链式调用，回调中 `return` 不返回值 = 不追加
+
+**关联更新**：
+- TOPIC_MAP.md 已更新（新增 SelectKit 条目）
+- README 目录 已更新（javascript/07 加入目录，待完成任务移除 javascript/07 高优先级项）

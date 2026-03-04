@@ -118,7 +118,8 @@ discoursedevskills/
 │   ├── 03_routes.md                 ✅ Ember Routes
 │   ├── 04_models.md                 ✅ Ember Store 与 Model
 │   ├── 05_qunit_testing.md          ✅ Unit + Integration 测试
-│   └── 06_message_bus.md            ✅ MessageBus 前端订阅规范（subscribe/unsubscribe/@bind/instance-initializer）
+│   ├── 06_message_bus.md            ✅ MessageBus 前端订阅规范（subscribe/unsubscribe/@bind/instance-initializer）
+│   └── 07_select_kit.md             ✅ SelectKit 组件规范（ComboBox/MultiSelect/EmailGroupUserChooser/modifySelectKit）
 │
 ├── system_specs/                    ← 系统测试 / Page Objects
 │   ├── 01_page_objects.md           ✅ Page Objects 系统测试
@@ -174,7 +175,6 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 高 | javascript/07_select_kit.md | SelectKit / ComboBox / MultiSelect 前端规范 | discourse/app/components/select-kit/ |
 | 中 | plugins/27_search_filter.md | 插件扩展 Search（register_search_advanced_filter） | discourse-assign/plugin.rb search 段 |
 | 中 | plugins/27_reports.md | Report.add_report + add_directory_column | discourse-solved/plugin.rb |
 
