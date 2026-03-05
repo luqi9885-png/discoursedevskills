@@ -155,7 +155,8 @@ discoursedevskills/
 │   ├── 25_plugin_testing.md         ✅ 插件 RSpec 测试（Fabricator/request spec/model spec/job spec/shared_context）
 │   ├── 26_preloading.md             ✅ 预加载 N+1 防治（TopicList/TopicView/BookmarkQuery/Search.on_preload）
 │   ├── 27_search_filter.md          ✅ 搜索扩展（register_search_advanced_filter/add_filter_custom_filter/addAdvancedSearchOptions）
-│   └── 28_reports.md                ✅ Admin 报告（Report.add_report 折线图/表格 + add_directory_column）
+│   ├── 28_reports.md                ✅ Admin 报告（Report.add_report 折线图/表格 + add_directory_column）
+│   └── 29_plugin_api_misc.md        ✅ Plugin API 杂项（registerTopicFooterButton/addNavigationBarItem/addBulkActionButton/addKeyboardShortcut 等）
 │
 ├── patterns/                        ← 通用架构模式
 │   ├── 01_plugin_architecture.md    ✅ Plugin 架构模式
@@ -177,7 +178,7 @@ discoursedevskills/
 
 | 优先级 | 输出文件 | 主题 | 源码参考目录 |
 |--------|----------|------|-------------|
-| 中 | plugins/29_plugin_api_misc.md | 散落 api 方法（addPostSmallActionIcon/addNavigationBarItem/addKeyboardShortcut/addBulkActionButton） | discourse-assign initializers |
+| — | — | 已系统覆盖主要插件开发技能，待实战反馈补充 | — |
 
 ---
 

@@ -742,3 +742,26 @@
 **关联更新**：
 - TOPIC_MAP.md ✅ 已更新（新增 plugins/27、plugins/28 两条目）
 - README 目录 ✅ 已更新（27、28 加入目录；待完成任务更新为 plugins/29_plugin_api_misc.md）
+
+## 2026-03-05 — plugins/29_plugin_api_misc.md
+
+**状态**：✅ 完成
+
+**本次完成**：
+- 阅读 `extend-for-assigns.js` 全文，系统整理所有未被其他文件覆盖的 api 方法
+- 阅读 `extend-for-assigns.js:46~229`（registerTopicFooterButton 四个按钮完整定义，理解 displayed/dropdown/dependentKeys）
+- 阅读 `extend-for-assigns.js:276`（addNavigationBarItem + customFilter/customHref/forceActive）
+- 阅读 `extend-for-assigns.js:355,532,572,580,687,690,696,698,702,713,523`（其余方法各一处）
+- 整理 `plugins/29_plugin_api_misc.md`（299 行，13 个 api 方法）
+- 待完成任务已全部清空，标记为「已系统覆盖主要插件开发技能」
+
+**验证来源**：
+- `registerTopicFooterButton:46`：icon/displayed/action 均为函数，`this` 是框架注入对象（含 topic/currentUser/site），依赖字段变化需 `dependentKeys`
+- `addBulkActionButton:702`：两种 actionType（setComponent = 展示组件，performAndRefresh = 直接操作），选错类型点击无效
+- `addNavigationBarItem:276`：customFilter 控制是否显示，forceActive 控制高亮，两者独立判断
+- `addTagsHtmlCallback:357`：回调返回 HTML 字符串，返回空字符串不注入
+- `addPostSmallActionClassesCallback:572`：回调返回 class 数组，返回 undefined 不追加
+
+**关联更新**：
+- TOPIC_MAP.md ✅ 已更新（新增 plugins/29 条目）
+- README 目录 ✅ 已更新（plugins/29 加入目录；待完成任务标记为已全覆盖）
