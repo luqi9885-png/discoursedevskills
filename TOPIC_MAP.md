@@ -34,6 +34,8 @@
 | Admin 多子页面 | plugins/15_admin_multi_page.md | Admin 多子页面导航；章节：addAdminPluginConfigurationNav/route命名规律 | — | 独立主题 |
 | Jobs（核心） | ruby/07_jobs.md | Regular / Scheduled Jobs；章节：Jobs::Base/Jobs::Scheduled/execute/enqueue | — | 独立主题 |
 | Reviewable 审核 | ruby/12_reviewable.md | Reviewable 审核系统；章节：build/perform/guardian | — | 独立主题 |
+| 搜索过滤扩展（插件） | plugins/27_search_filter.md | 搜索扩展规范；章节：register_search_advanced_filter/add_filter_custom_filter/addAdvancedSearchOptions | ruby/13_search.md | 后者写 Search 核心架构，本文只写插件扩展 DSL |
+| Admin 报告 + 用户目录列 | plugins/28_reports.md | Admin 报告；章节：Report.add_report/折线图/表格/add_directory_column | plugins/09_admin_ui.md | 后者写 Admin 页面布局，本文只写报告数据 |
 | Search 扩展 | ruby/13_search.md | Search 扩展；章节：register_modifier/custom_filter | — | 独立主题 |
 | RateLimiter | ruby/10_rate_limiter.rb | RateLimiter；章节：performed!/RateLimiter.new | — | 独立主题 |
 | PostCreator | ruby/11_post_topic_creator.md | PostCreator；章节：create/TopicCreator | — | 独立主题 |

@@ -715,3 +715,30 @@
 **关联更新**：
 - TOPIC_MAP.md 已更新（新增 SelectKit 条目）
 - README 目录 已更新（javascript/07 加入目录，待完成任务移除 javascript/07 高优先级项）
+
+## 2026-03-05 — plugins/27_search_filter.md + plugins/28_reports.md
+
+**状态**：✅ 完成（两个文件一次完成）
+
+**本次完成**：
+- 阅读 `discourse-assign/plugin.rb:970~998`（三种 register_search_advanced_filter 模式）
+- 阅读 `discourse-assign/plugin.rb:898~952`（add_filter_custom_filter 完整实现）
+- 阅读 `lib/plugin/instance.rb:283~315`（两个 DSL 的定义，确认 Guardian 注入方式差异）
+- 阅读 `extend-for-assigns.js:304`（addAdvancedSearchOptions 前端对应）
+- 阅读 `discourse-solved/plugin.rb:213~250`（Report.add_report 折线图 + add_category_filter）
+- 阅读 `discourse-reactions/plugin.rb:289~368`（add_report 表格模式 + DB.query + 动态 labels）
+- 阅读 `discourse-solved/plugin.rb:307~339`（add_directory_column + SQL 结构）
+- 阅读 `app/models/report.rb:96~200`（Report attr_accessor 完整列表）
+- 整理 `plugins/27_search_filter.md`（306 行）+ `plugins/28_reports.md`（305 行）
+
+**验证来源**：
+- `plugin.rb:970`：`register_search_advanced_filter` 块内用 `@guardian`（实例变量，Search 注入），与 `add_filter_custom_filter` 块参数 `guardian` 不同
+- `plugin.rb:971`：无权限时用 `next` 而非 `return`，是 Proc/block 的规范退出方式
+- `plugin.rb:898`：`add_filter_custom_filter` scope 是 Topic（不是 posts），`filter_values` 是数组
+- `discourse-solved:213`：`add_category_filter` 返回 `[category_id, include_subcategories]` 数组，必须解构
+- `discourse-reactions:289`：`report.modes = [:table]` 切换表格模式，`report.labels` 定义列结构
+- `discourse-solved:307`：`add_directory_column` SQL 必须先 `UPDATE SET col=0`，再用 CTE 更新，`:period_type` 和 `:since` 是系统参数
+
+**关联更新**：
+- TOPIC_MAP.md ✅ 已更新（新增 plugins/27、plugins/28 两条目）
+- README 目录 ✅ 已更新（27、28 加入目录；待完成任务更新为 plugins/29_plugin_api_misc.md）
