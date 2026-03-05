@@ -42,6 +42,7 @@
 | PostCreator | ruby/11_post_topic_creator.md | PostCreator；章节：create/TopicCreator | — | 独立主题 |
 | Notification（核心） | ruby/09_notification.md | 后端通知系统；章节：create/types/push | plugins/19_notification_consolidation.md | 后者只写合并策略，通知创建/类型不重复 |
 | System Spec | system_specs/01_page_objects.md | Page Objects 系统测试；章节：PageObject/has_css?/fill_in | system_specs/02_system_spec_patterns.md | 后者引用前者的 Page Objects，不重复定义 |
+| FormKit 表单框架 | javascript/08_form_kit.md | FormKit 规范；章节：@data/@validation/Field 控件体系/form.Object/InputGroup/onRegisterApi | javascript/07_select_kit.md | SelectKit 作为 field.Custom 嵌入时需绑定 field.value/field.set |
 | SelectKit 组件 | javascript/07_select_kit.md | SelectKit 规范；章节：ComboBox/MultiSelect/EmailGroupUserChooser/modifySelectKit | — | 独立主题；withPluginApi 基础见 plugins/02_plugin_api_frontend.md |
 | 预加载 / N+1 防治 | plugins/26_preloading.md | 预加载 N+1 防治；章节：TopicList.on_preload/TopicView.on_preload/BookmarkQuery.on_preload/Search.on_preload/register_topic_preloader_associations | plugins/22_serializer_extensions.md | 后者写 Serializer 读取预加载值，本文写 on_preload 存数据 |
 | 插件 RSpec 测试 | plugins/25_plugin_testing.md | 插件 RSpec 测试规范；章节：Fabricator定义/request spec/model spec/job spec/shared_context | ruby/05_rspec_testing.md | 后者写核心 RSpec 模式，本文只写插件特有组织方式和 Fabricator 定义 |

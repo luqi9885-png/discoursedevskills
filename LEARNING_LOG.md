@@ -765,3 +765,26 @@
 **关联更新**：
 - TOPIC_MAP.md ✅ 已更新（新增 plugins/29 条目）
 - README 目录 ✅ 已更新（plugins/29 加入目录；待完成任务标记为已全覆盖）
+
+## 2026-03-05 — javascript/08_form_kit.md
+
+**状态**：✅ 完成
+
+**本次完成**：
+- 阅读 `form-kit/components/fk/form.gjs`（Form 完整实现：onSubmit 接收 draftData 快照、onRegisterApi API 对象、dirty check 导航拦截）
+- 阅读 `form-kit/components/fk/field.gjs`（Field 控件体系：17 种控件类型、field.Custom 嵌入规则）
+- 阅读 `form-kit/lib/validator.js`（9 种内建验证规则实现）
+- 阅读 `form-kit/lib/validation-parser.js`（`@validation` 字符串格式：管道分隔、冒号传参）
+- 阅读 `ai-llm-editor-form.gjs:295~660`（完整真实用例：Field/Select/Password/Object/InputGroup/Actions/Submit/@onSet 联动）
+- 阅读 `admin-badges-show.gjs:205~230`（@onRegisterApi + formApi.reset() 命令式操作）
+- 整理 `javascript/08_form_kit.md`（472 行）
+
+**验证来源**：
+- `form.gjs:241`：`@onSubmit` 收到的是 `formData.draftData`（纯对象快照），不是 proxy；直接用 `this.args.model` 会绕过 FormKit
+- `ai-llm-editor-form.gjs:390`：`form.Object @name="provider_params"` 绑定子对象，内部用 `object.Field` 而非 `form.Field`
+- `ai-llm-editor-form.gjs:438`：`form.InputGroup` 横排多字段，内部用 `inputGroup.Field`
+- `field.gjs:98~120`：`field.Custom` 需手动绑定 `@value={{field.value}}` 和 `@onChange={{field.set}}`，否则 FormKit 无法追踪
+
+**关联更新**：
+- TOPIC_MAP.md ✅ 已更新
+- README 目录 ✅ 已更新（javascript/08 加入目录）

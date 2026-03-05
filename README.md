@@ -119,7 +119,8 @@ discoursedevskills/
 │   ├── 04_models.md                 ✅ Ember Store 与 Model
 │   ├── 05_qunit_testing.md          ✅ Unit + Integration 测试
 │   ├── 06_message_bus.md            ✅ MessageBus 前端订阅规范（subscribe/unsubscribe/@bind/instance-initializer）
-│   └── 07_select_kit.md             ✅ SelectKit 组件规范（ComboBox/MultiSelect/EmailGroupUserChooser/modifySelectKit）
+│   ├── 07_select_kit.md             ✅ SelectKit 组件规范（ComboBox/MultiSelect/EmailGroupUserChooser/modifySelectKit）
+│   └── 08_form_kit.md               ✅ FormKit 表单框架（@data/@validation/Field 控件/form.Object/onRegisterApi）
 │
 ├── system_specs/                    ← 系统测试 / Page Objects
 │   ├── 01_page_objects.md           ✅ Page Objects 系统测试
