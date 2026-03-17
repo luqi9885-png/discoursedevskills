@@ -7,15 +7,18 @@
 
 ## 👤 角色选择
 
-本仓库服务两种 AI 角色，进入任务前先确认角色：
+本仓库服务两种 AI 角色，**进入任务前先确认角色，然后直接跳转对应入口文件**：
 
-| 角色 | 任务 | 入口 |
+| 角色 | 任务 | 完整协议入口 |
 |------|------|------|
-| **学习者** | 主动学习 Discourse 源码，整理结构化知识到主文档 | 👇 启动流程（学习者） |
-| **开发者** | 执行外部插件开发任务，读取 skills 参考，记录经验 | 👇 启动流程（开发者）|
+| **学习者** | 主动学习 Discourse 源码，整理结构化知识到主文档 | 👇 本文件继续往下读 |
+| **开发者** | 执行外部插件开发任务 | **→ 立即读 `standards/DEVELOPER_GUIDE.md`，本文件其余内容可跳过** |
 
-> Git 规范：`standards/GIT_WORKFLOW.md`（分支策略 / commit 格式 / gh 操作 / 异常处理）
-> 经验编写规范：`standards/EXPERIENCE_GUIDE.md`（命名 / 格式 / 去重 / 升级标准）
+> 所有规范文件入口：
+> - `standards/DEVELOPER_GUIDE.md` — 开发者完整协议（任务解析 → 技能加载 → 实现 → Git → 经验）
+> - `standards/SKILL_INDEX.md` — 任务到技能的映射表（开发者按需查阅）
+> - `standards/GIT_WORKFLOW.md` — Git 分支策略 / commit 格式 / gh 操作 / 异常处理
+> - `standards/EXPERIENCE_GUIDE.md` — 经验编写规范（命名 / 格式 / 去重 / 升级标准）
 
 ---
 
@@ -83,29 +86,7 @@ git commit -m "chore: 更新进度记录，标记 16 完成，下一步 17_notif
 
 > 完整 Git 类型速查见 `standards/GIT_WORKFLOW.md`
 
----
-
-## 🛠 每次开始前（启动流程 — 开发者）
-
-> 开发者角色：只读取 skills 参考，专注执行外部开发任务，不主动学习或修改主文档。
-
-1. **状态检查**（AI 执行）：
-   ```bash
-   git fetch origin && git log --oneline --graph --all -5 && git status && gh issue list --limit 10
-   ```
-2. **读取相关 skills**：在 `plugins/` `ruby/` `javascript/` 等目录按需查阅
-3. **浏览已有经验**：`experience/mistakes/` 和 `experience/decisions/`，避免重复踩坑
-4. **创建 issue + 切分支**（AI 执行，见 `standards/GIT_WORKFLOW.md` 三节）
-5. **开始任务**：专注实现，遇到问题随时记录到 `experience/inbox/`
-
-## 🏁 每次结束时（收尾流程 — 开发者）
-
-1. **经验捕获**：读取 `standards/EXPERIENCE_GUIDE.md`，按规范写入 `experience/`
-2. **升级评估**：符合标准的 experience 升级至主文档（EXPERIENCE_GUIDE 第五节）
-3. **提交 + PR + 合并**（AI 执行，见 `standards/GIT_WORKFLOW.md` 三节）
-4. **更新 `experience/README.md`** 条目数表
-
-> 开发者**不更新** TOPIC_MAP.md / LEARNING_LOG.md（这是学习者的职责）
+> 开发者角色：跳转 `standards/DEVELOPER_GUIDE.md` 获取完整协议，以下内容为学习者专区。
 
 ---
 
@@ -141,8 +122,10 @@ discoursedevskills/
 ├── TOPIC_MAP.md                     ← 主题边界注册表（学习者每次新文件后更新）
 │
 ├── standards/                       ← 工作规范（AI 执行，人类可参考）
-│   ├── GIT_WORKFLOW.md              ← Git commit 类型、格式、节奏规范
-│   └── EXPERIENCE_GUIDE.md         ← AI 经验编写指南（命名/格式/去重/升级）
+│   ├── DEVELOPER_GUIDE.md           ← ⭐ 开发者完整协议（任务解析/技能加载/实现/Git/经验）
+│   ├── SKILL_INDEX.md               ← ⭐ 任务→技能映射表（Phase1/2/3 渐进加载）
+│   ├── GIT_WORKFLOW.md              ← Git 分支策略 / commit 格式 / gh 操作 / 异常处理
+│   └── EXPERIENCE_GUIDE.md         ← 经验编写规范（命名/格式/去重/升级标准）
 │
 ├── experience/                      ← 开发经验捕获层（开发者角色写入）
 │   ├── README.md                    ← 经验层说明 + 当前条目数
