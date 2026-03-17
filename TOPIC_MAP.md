@@ -47,3 +47,9 @@
 | 预加载 / N+1 防治 | plugins/26_preloading.md | 预加载 N+1 防治；章节：TopicList.on_preload/TopicView.on_preload/BookmarkQuery.on_preload/Search.on_preload/register_topic_preloader_associations | plugins/22_serializer_extensions.md | 后者写 Serializer 读取预加载值，本文写 on_preload 存数据 |
 | 插件 RSpec 测试 | plugins/25_plugin_testing.md | 插件 RSpec 测试规范；章节：Fabricator定义/request spec/model spec/job spec/shared_context | ruby/05_rspec_testing.md | 后者写核心 RSpec 模式，本文只写插件特有组织方式和 Fabricator 定义 |
 | MessageBus 前端 | javascript/06_message_bus.md | MessageBus 前端订阅规范；章节：subscribe/unsubscribe/@bind/instance-initializer/teardown | — | 前端 subscribe/unsubscribe；后端 publish 权限控制见 ruby/03_controllers.md |
+
+| 需求规范 — 使用指南 | requirements/00_how_to_use.md | 人机协作框架概述；两种使用方式；合格需求检查表 | — | 独立主题；供人类用户阅读 |
+| 需求六维框架 | requirements/01_requirement_dimensions.md | 角色/入口/流程/数据/规则/反馈六个维度；每维度写法示例与常见错误 | — | 独立主题；供人类学习 |
+| AI 需求引导协议 | requirements/02_ai_elicitation_protocol.md | AI 逐步提问协议；六轮提问脚本；标准需求文档输出格式 | — | 供 AI 读取执行；用户说"按引导协议完善需求"时触发 |
+| 会员商品插件完整案例 | requirements/03_discourse_plugin_example.md | 从模糊描述到专业需求全过程；包含完整六维文档 + 对比总结 | — | 参考案例；展示规范使用效果 |
+| 需求描述空白模板 | requirements/04_requirement_template.md | 可直接填写的标准化需求文档模板 | — | 供人类填写 |
