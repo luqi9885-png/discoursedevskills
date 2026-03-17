@@ -14,8 +14,8 @@
 | **学习者** | 主动学习 Discourse 源码，整理结构化知识到主文档 | 👇 启动流程（学习者） |
 | **开发者** | 执行外部插件开发任务，读取 skills 参考，记录经验 | 👇 启动流程（开发者）|
 
-> Git 规范：`standards/GIT_WORKFLOW.md`
-> 经验编写规范：`standards/EXPERIENCE_GUIDE.md`
+> Git 规范：`standards/GIT_WORKFLOW.md`（分支策略 / commit 格式 / gh 操作 / 异常处理）
+> 经验编写规范：`standards/EXPERIENCE_GUIDE.md`（命名 / 格式 / 去重 / 升级标准）
 
 ---
 
@@ -23,16 +23,19 @@
 
 > **记忆可能丢失，每次必须先执行以下步骤再开始任何工作。**
 
-1. **读 LEARNING_LOG.md**：确认上次进度、已完成项、待开始项
-2. **用 git log 验证**：`git log --oneline -5` 确认上次 commit 内容与 LOG 一致
+1. **状态检查**（AI 执行）：
+   ```bash
+   git fetch origin && git log --oneline --graph --all -5 && git status && gh issue list --limit 10
+   ```
+2. **读 LEARNING_LOG.md**：确认上次进度、已完成项、待开始项
 3. **内容核验**：对上次 WIP 未完成、或本次要修改的文件，执行：
    ```bash
-   head -5 plugins/xx_xxx.md   # 读首行标题
+   head -5 plugins/xx_xxx.md
    ```
-   与 TOPIC_MAP 中该文件的「内容摘要」比对，确认文件实际内容与登记一致。
-   发现不符 → **优先修复，再开始新任务**
+   与 TOPIC_MAP 中该文件的「内容摘要」比对，发现不符 → **优先修复，再开始新任务**
 4. **读 TOPIC_MAP.md**：确认即将写的主题是否与已有文件边界冲突
-5. **完成新任务**：阅读源码 → 整理到对应 md 文件
+5. **创建 issue + 切分支**（AI 执行，见 `standards/GIT_WORKFLOW.md` 三节）
+6. **完成新任务**：阅读源码 → 整理到对应 md 文件
 
 ---
 
@@ -86,20 +89,21 @@ git commit -m "chore: 更新进度记录，标记 16 完成，下一步 17_notif
 
 > 开发者角色：只读取 skills 参考，专注执行外部开发任务，不主动学习或修改主文档。
 
-1. **确认角色**：本次任务是外部插件开发，非主动学习
+1. **状态检查**（AI 执行）：
+   ```bash
+   git fetch origin && git log --oneline --graph --all -5 && git status && gh issue list --limit 10
+   ```
 2. **读取相关 skills**：在 `plugins/` `ruby/` `javascript/` 等目录按需查阅
-3. **读取 experience/**：快速浏览 `experience/mistakes/` 和 `experience/decisions/`，避免重复踩已知的坑
-4. **确认 Git 规范**：`standards/GIT_WORKFLOW.md`（仅需读一次，后续 AI 自动执行）
-5. **开始任务**：专注实现功能，遇到问题随时记录到 `experience/inbox/`
+3. **浏览已有经验**：`experience/mistakes/` 和 `experience/decisions/`，避免重复踩坑
+4. **创建 issue + 切分支**（AI 执行，见 `standards/GIT_WORKFLOW.md` 三节）
+5. **开始任务**：专注实现，遇到问题随时记录到 `experience/inbox/`
 
 ## 🏁 每次结束时（收尾流程 — 开发者）
 
-1. **回顾任务**：是否遇到 bug、卡点、非显而易见的决策？
-2. **执行经验捕获**：读取 `standards/EXPERIENCE_GUIDE.md`，按规范写入 `experience/`
-3. **评估升级**：是否有内容应升级至主文档？（EXPERIENCE_GUIDE 第五节）
-4. **exp commit**：`exp(mistakes|decisions): <描述>`
-5. **refactor commit**（如有升级）：`refactor(plugins/xx): <描述>`
-6. **chore commit**：更新 `experience/README.md` 条目数表
+1. **经验捕获**：读取 `standards/EXPERIENCE_GUIDE.md`，按规范写入 `experience/`
+2. **升级评估**：符合标准的 experience 升级至主文档（EXPERIENCE_GUIDE 第五节）
+3. **提交 + PR + 合并**（AI 执行，见 `standards/GIT_WORKFLOW.md` 三节）
+4. **更新 `experience/README.md`** 条目数表
 
 > 开发者**不更新** TOPIC_MAP.md / LEARNING_LOG.md（这是学习者的职责）
 
