@@ -5,7 +5,21 @@
 
 ---
 
-## 🚀 每次开始前（启动流程）
+## 👤 角色选择
+
+本仓库服务两种 AI 角色，进入任务前先确认角色：
+
+| 角色 | 任务 | 入口 |
+|------|------|------|
+| **学习者** | 主动学习 Discourse 源码，整理结构化知识到主文档 | 👇 启动流程（学习者） |
+| **开发者** | 执行外部插件开发任务，读取 skills 参考，记录经验 | 👇 启动流程（开发者）|
+
+> Git 规范：`standards/GIT_WORKFLOW.md`
+> 经验编写规范：`standards/EXPERIENCE_GUIDE.md`
+
+---
+
+## 🚀 每次开始前（启动流程 — 学习者）
 
 > **记忆可能丢失，每次必须先执行以下步骤再开始任何工作。**
 
@@ -22,7 +36,7 @@
 
 ---
 
-## 🏁 每次结束时（收尾流程）
+## 🏁 每次结束时（收尾流程 — 学习者）
 
 > **每次任务结束必须按顺序执行，不得跳过。**
 
@@ -64,6 +78,31 @@ git add LEARNING_LOG.md README.md TOPIC_MAP.md
 git commit -m "chore: 更新进度记录，标记 16 完成，下一步 17_notification"
 ```
 
+> 完整 Git 类型速查见 `standards/GIT_WORKFLOW.md`
+
+---
+
+## 🛠 每次开始前（启动流程 — 开发者）
+
+> 开发者角色：只读取 skills 参考，专注执行外部开发任务，不主动学习或修改主文档。
+
+1. **确认角色**：本次任务是外部插件开发，非主动学习
+2. **读取相关 skills**：在 `plugins/` `ruby/` `javascript/` 等目录按需查阅
+3. **读取 experience/**：快速浏览 `experience/mistakes/` 和 `experience/decisions/`，避免重复踩已知的坑
+4. **确认 Git 规范**：`standards/GIT_WORKFLOW.md`（仅需读一次，后续 AI 自动执行）
+5. **开始任务**：专注实现功能，遇到问题随时记录到 `experience/inbox/`
+
+## 🏁 每次结束时（收尾流程 — 开发者）
+
+1. **回顾任务**：是否遇到 bug、卡点、非显而易见的决策？
+2. **执行经验捕获**：读取 `standards/EXPERIENCE_GUIDE.md`，按规范写入 `experience/`
+3. **评估升级**：是否有内容应升级至主文档？（EXPERIENCE_GUIDE 第五节）
+4. **exp commit**：`exp(mistakes|decisions): <描述>`
+5. **refactor commit**（如有升级）：`refactor(plugins/xx): <描述>`
+6. **chore commit**：更新 `experience/README.md` 条目数表
+
+> 开发者**不更新** TOPIC_MAP.md / LEARNING_LOG.md（这是学习者的职责）
+
 ---
 
 ## 📝 README 维护原则
@@ -93,9 +132,19 @@ README 是整个知识库的导航核心，修改需谨慎。
 
 ```
 discoursedevskills/
-├── README.md                        ← 本文件：总览 + 学习规范 + 工作流
-├── LEARNING_LOG.md                  ← 学习进度记录（每次必读必写）
-├── TOPIC_MAP.md                     ← 主题边界注册表（防止重叠，每次新文件后更新）
+├── README.md                        ← 本文件：总览 + 规范 + 工作流
+├── LEARNING_LOG.md                  ← 学习进度记录（学习者每次必读必写）
+├── TOPIC_MAP.md                     ← 主题边界注册表（学习者每次新文件后更新）
+│
+├── standards/                       ← 工作规范（AI 执行，人类可参考）
+│   ├── GIT_WORKFLOW.md              ← Git commit 类型、格式、节奏规范
+│   └── EXPERIENCE_GUIDE.md         ← AI 经验编写指南（命名/格式/去重/升级）
+│
+├── experience/                      ← 开发经验捕获层（开发者角色写入）
+│   ├── README.md                    ← 经验层说明 + 当前条目数
+│   ├── mistakes/                    ← 踩坑记录
+│   ├── decisions/                   ← 设计决策记录
+│   └── inbox/                       ← 原始观察暂存（7 天内处理）
 │
 ├── ruby/                            ← Ruby / Rails 后端规范
 │   ├── 01_service_objects.md        ✅ Service::Base DSL
